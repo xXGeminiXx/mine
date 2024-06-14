@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #000;
+    color: white;
+    margin: 0;
+    overflow: hidden;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 24px;
+    color: white;
+    background-color: #ff4500;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-shadow: 2px 2px 4px #000000; /* Outline */
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff6347;
+}
+
+#bee-image {
+    position: absolute;
+    top: 10%;
+    width: 100px;
+    animation: fly 5s infinite;
+    display: none;
+}
+
+@keyframes fly {
+    0%, 100% { transform: translateX(-200%); }
+    50% { transform: translateX(200%); }
+}
+
+.message {
+    position: absolute;
+    font-size: 36px;
+    color: #FFD700;
+    animation: fadeMessage 5s infinite;
+    text-shadow: 2px 2px 4px #000000; /* Outline */
+    display: none;
+}
+
+@keyframes fadeMessage {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<h1>Support the Stream!</h1>
+<button onclick="window.open('http://paypal.me/ImBeeBrained', '_blank')">Support Me</button>
+
+<img id="bee-image" src="https://github.com/xXGeminiXx/mine/blob/main/bee-image.png" alt="Flying Bee">
+
+<div id="message1" class="message">Be kind to others!</div>
+<div id="message2" class="message">Spread positivity!</div>
+<div id="message3" class="message">Help someone today!</div>
+<div id="message4" class="message">You are awesome!</div>
+<div id="message5" class="message">Stay positive!</div>
+<div id="message6" class="message">Believe in yourself!</div>
+<div id="message7" class="message">Keep smiling!</div>
+<div id="message8" class="message">Be the change!</div>
+<div id="message9" class="message">You can do it!</div>
+<div id="message10" class="message">Spread love and joy!</div>
+
+<script>
+var messages = document.getElementsByClassName("message");
+
+function showRandomMessage() {
+    var randomIndex = Math.floor(Math.random() * messages.length);
+    var message = messages[randomIndex];
+    message.style.top = Math.random() * 80 + "%";
+    message.style.left = Math.random() * 80 + "%";
+    message.style.display = "block";
+    setTimeout(function() {
+        message.style.display = "none";
+    }, 5000);
+}
+
+var beeImageElement = document.getElementById("bee-image");
+
+function showBeeImage() {
+    beeImageElement.style.display = "block";
+    setTimeout(function() {
+        beeImageElement.style.display = "none";
+    }, 5000);
+}
+
+setInterval(showRandomMessage, 15000); // Show a random message every 15 seconds
+setInterval(showBeeImage, 20000); // Show the bee image every 20 seconds
+
+</script>
+
+</body>
+</html>
