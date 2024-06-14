@@ -23,9 +23,11 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    margin-top: 20px;
     text-shadow: 2px 2px 4px #000000; /* Outline */
     transition: background-color 0.3s ease;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
 }
 
 button:hover {
@@ -37,7 +39,7 @@ button:hover {
     top: 10%;
     width: 100px;
     animation: fly 5s infinite;
-    display: none;
+    cursor: pointer;
 }
 
 @keyframes fly {
@@ -58,6 +60,14 @@ button:hover {
     0%, 100% { opacity: 0; }
     50% { opacity: 1; }
 }
+
+#gotcha-message {
+    position: absolute;
+    font-size: 36px;
+    color: red;
+    text-shadow: 2px 2px 4px #000000; /* Outline */
+    display: none;
+}
 </style>
 </head>
 <body>
@@ -65,7 +75,9 @@ button:hover {
 <h1>Support the Stream!</h1>
 <button onclick="window.open('http://paypal.me/ImBeeBrained', '_blank')">Support Me</button>
 
-<img id="bee-image" src="https://github.com/xXGeminiXx/mine/blob/main/bee-image.png" alt="Flying Bee">
+<img id="bee-image" src="https://github.com/xXGeminiXx/mine/blob/main/bee-image.png" alt="Flying Bee" onclick="showGotchaMessage()">
+
+<div id="gotcha-message">Gotcha!</div>
 
 <div id="message1" class="message">Be kind to others!</div>
 <div id="message2" class="message">Spread positivity!</div>
@@ -93,12 +105,22 @@ function showRandomMessage() {
 }
 
 var beeImageElement = document.getElementById("bee-image");
+var gotchaMessageElement = document.getElementById("gotcha-message");
 
 function showBeeImage() {
     beeImageElement.style.display = "block";
     setTimeout(function() {
         beeImageElement.style.display = "none";
     }, 5000);
+}
+
+function showGotchaMessage() {
+    gotchaMessageElement.style.display = "block";
+    gotchaMessageElement.style.top = beeImageElement.style.top;
+    gotchaMessageElement.style.left = beeImageElement.style.left;
+    setTimeout(function() {
+        gotchaMessageElement.style.display = "none";
+    }, 2000);
 }
 
 setInterval(showRandomMessage, 15000); // Show a random message every 15 seconds
