@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,27 +11,28 @@ body {
     background-color: #000;
     color: white;
     margin: 0;
+    overflow: hidden;
 }
 
 #countdown {
-    font-size: 48px;
+    font-size: 144px; /* Three times bigger */
     text-align: center;
     transition: all 0.5s ease;
 }
 
 .small {
-    font-size: 48px;
+    font-size: 144px; /* Three times bigger */
     color: white;
 }
 
 .medium {
-    font-size: 72px;
+    font-size: 216px; /* Three times bigger */
     color: yellow;
     transform: scale(1.1);
 }
 
 .large {
-    font-size: 96px;
+    font-size: 288px; /* Three times bigger */
     color: red;
     font-weight: bold;
     animation: shake 0.5s;
@@ -52,33 +52,81 @@ body {
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
+
+#bee-message {
+    position: absolute;
+    bottom: 10%;
+    font-size: 48px;
+    color: #FFD700;
+    animation: fade 5s infinite;
+    display: none;
+}
+
+@keyframes fade {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+#bee-image {
+    position: absolute;
+    top: 10%;
+    width: 100px;
+    animation: fly 5s infinite;
+    display: none;
+}
+
+@keyframes fly {
+    0%, 100% { transform: translateX(-200%); }
+    50% { transform: translateX(200%); }
+}
 </style>
 </head>
 <body>
 
 <div id="countdown" class="small"></div>
+<div id="bee-message">Keep watching for the giveaway!</div>
+<img id="bee-image" src="bee_image_url" alt="Flying Bee">
 
 <script>
-var countDownDate = new Date().setMinutes(new Date().getMinutes() + 30);
+function getNext6PM() {
+    var now = new Date();
+    var target = new Date();
+    target.setHours(18, 0, 0, 0); // 6:00 PM
+
+    if (now > target) {
+        target.setDate(target.getDate() + 1); // If it's past 6 PM, target 6 PM the next day
+    }
+
+    return target.getTime();
+}
+
+var countDownDate = getNext6PM();
 
 var countdownElement = document.getElementById("countdown");
+var beeMessageElement = document.getElementById("bee-message");
+var beeImageElement = document.getElementById("bee-image");
 
 var countdownFunction = setInterval(function() {
     var now = new Date().getTime();
     var distance = countDownDate - now;
 
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    countdownElement.innerHTML = minutes + "m " + seconds + "s ";
+    countdownElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
 
     if (distance < 0) {
         clearInterval(countdownFunction);
-        countdownElement.innerHTML = "EXPIRED";
-    } else if (distance < 600000) {
-        countdownElement.className = "medium";
-    } else if (distance < 300000) {
+        countdownElement.style.display = "none";
+        beeMessageElement.style.display = "none";
+        beeImageElement.style.display = "none";
+    } else if (distance < 300000) { // 5 minutes
         countdownElement.className = "large";
+        beeMessageElement.style.display = "block";
+        beeImageElement.style.display = "block";
+    } else if (distance < 600000) { // 10 minutes
+        countdownElement.className = "medium";
     } else {
         countdownElement.className = "small";
     }
