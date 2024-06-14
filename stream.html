@@ -15,44 +15,21 @@ body {
     overflow: hidden;
 }
 
-button {
-    padding: 15px 30px;
-    font-size: 24px;
-    color: white;
-    background-color: #ff4500;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    text-shadow: 2px 2px 4px #000000; /* Outline */
-    transition: background-color 0.3s ease;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-}
-
-button:hover {
-    background-color: #ff6347;
-}
-
-#support-text {
-    position: absolute;
-    bottom: 70px;
-    left: 10px;
-    font-size: 24px;
-    text-shadow: 2px 2px 4px #000000; /* Outline */
-}
-
 #bee-image {
     position: absolute;
-    top: 10%;
     width: 100px;
-    animation: fly 5s infinite;
     cursor: pointer;
+    display: none;
 }
 
 @keyframes fly {
     0%, 100% { transform: translateX(-200%); }
     50% { transform: translateX(200%); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-100px); }
 }
 
 .message {
@@ -80,10 +57,7 @@ button:hover {
 </head>
 <body>
 
-<div id="support-text">Support the Stream!</div>
-<button onclick="window.open('http://paypal.me/ImBeeBrained', '_blank')">Support Me</button>
-
-<img id="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee" onclick="showGotchaMessage()">
+<img id="bee-image" src="https://github.com/xXGeminiXx/mine/blob/main/bee-image.png" alt="Flying Bee">
 
 <div id="gotcha-message">Gotcha!</div>
 
@@ -120,6 +94,8 @@ button:hover {
 
 <script>
 var messages = document.getElementsByClassName("message");
+var beeImageElement = document.getElementById("bee-image");
+var gotchaMessageElement = document.getElementById("gotcha-message");
 
 function showRandomMessage() {
     var randomIndex = Math.floor(Math.random() * messages.length);
@@ -132,14 +108,20 @@ function showRandomMessage() {
     }, 5000);
 }
 
-var beeImageElement = document.getElementById("bee-image");
-var gotchaMessageElement = document.getElementById("gotcha-message");
-
 function showBeeImage() {
     beeImageElement.style.display = "block";
+    var randomAction = Math.random();
+    if (randomAction < 0.5) {
+        beeImageElement.style.animation = "fly 5s infinite";
+    } else {
+        beeImageElement.style.animation = "bounce 2s infinite";
+        setTimeout(function() {
+            beeImageElement.style.animation = "";
+        }, 10000); // Bounce for 10 seconds
+    }
     setTimeout(function() {
         beeImageElement.style.display = "none";
-    }, 5000);
+    }, 15000);
 }
 
 function showGotchaMessage() {
@@ -152,7 +134,7 @@ function showGotchaMessage() {
 }
 
 setInterval(showRandomMessage, 15000); // Show a random message every 15 seconds
-setInterval(showBeeImage, 20000); // Show the bee image every 20 seconds
+setInterval(showBeeImage, 30000); // Show the bee image every 30 seconds
 
 </script>
 
