@@ -100,8 +100,8 @@ var gotchaMessageElement = document.getElementById("gotcha-message");
 function showRandomMessage() {
     var randomIndex = Math.floor(Math.random() * messages.length);
     var message = messages[randomIndex];
-    message.style.top = Math.random() * 80 + "%";
-    message.style.left = Math.random() * 80 + "%";
+    message.style.top = Math.random() < 0.5 ? Math.random() * 20 + "%" : Math.random() * 20 + 80 + "%";
+    message.style.left = Math.random() < 0.5 ? Math.random() * 20 + "%" : Math.random() * 20 + 80 + "%";
     message.style.display = "block";
     setTimeout(function() {
         message.style.display = "none";
@@ -119,6 +119,8 @@ function showBeeImage() {
             beeImageElement.style.animation = "";
         }, 10000); // Bounce for 10 seconds
     }
+    beeImageElement.style.top = Math.random() < 0.5 ? Math.random() * 20 + "%" : Math.random() * 20 + 80 + "%";
+    beeImageElement.style.left = Math.random() < 0.5 ? Math.random() * 20 + "%" : Math.random() * 20 + 80 + "%";
     setTimeout(function() {
         beeImageElement.style.display = "none";
     }, 15000);
