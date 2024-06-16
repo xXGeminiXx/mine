@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    color: white;
+    margin: 0;
+    overflow: hidden;
+}
+
+#countdown {
+    font-size: 144px; /* Three times bigger */
+    text-align: center;
+    transition: all 0.5s ease;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 10px;
+    border-radius: 10px;
+    text-shadow: 2px 2px 4px #000000; /* Outline */
+}
+
+.small {
+    font-size: 144px; /* Three times bigger */
+    color: white;
+}
+
+.medium {
+    font-size: 216px; /* Three times bigger */
+    color: yellow;
+    transform: scale(1.1);
+}
+
+.large {
+    font-size: 288px; /* Three times bigger */
+    color: red;
+    font-weight: bold;
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+#bee-message {
+    position: absolute;
+    bottom: 10%;
+    font-size: 48px;
+    color: #FFD700;
+    animation: fade 5s infinite;
+    display: none;
+    text-shadow: 2px 2px 4px #000000; /* Outline */
+}
+
+@keyframes fade {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+#bee-image {
+    position: absolute;
+    top: 10%;
+    width: 100px;
+    animation: fly 5s infinite;
+    display: none;
+}
+
+@keyframes fly {
+    0%, 100% { transform: translateX(-200%); }
+    50% { transform: translateX(200%); }
+}
+
+.message {
+    position: absolute;
+    font-size: 36px;
+    color: #FFD700;
+    animation: fadeMessage 5s infinite;
+    text-shadow: 2px 2px 4px #000000; /* Outline */
+    display: none;
+}
+
+@keyframes fadeMessage {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div id="countdown" class="small"></div>
+<div id="bee-message">Keep watching for the giveaway!</div>
+<img id="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
+
+<div id="message1" class="message">Be kind to others!</div>
+<div id="message2" class="message">Spread positivity!</div>
+<div id="message3" class="message">Help someone today!</div>
+<div id="message4" class="message">You are awesome!</div>
+<div id="message5" class="message">Stay positive!</div>
+<div id="message6" class="message">Believe in yourself!</div>
+<div id="message7" class="message">Keep smiling!</div>
+<div id="message8" class="message">Be the change!</div>
+<div id="message9" class="message">You can do it!</div>
+<div id="message10" class="message">Spread love and joy!</div>
+
+<script>
+function getNext6PM() {
+    var now = new Date();
+    var target = new Date();
+    target.setHours(9, 10, 0, 0); // 6:00 PM
+
+    if (now > target) {
+        target.setDate(target.getDate() + 1); // If it's past 6 PM, target 6 PM the next day
+    }
+
+    return target.getTime();
+}
+
+var countDownDate = getNext6PM();
+
+var countdownElement = document.getElementById("countdown");
+var beeMessageElement = document.getElementById("bee-message");
+var beeImageElement = document.getElementById("bee-image");
+
+var messages = document.getElementsByClassName("message");
+
+function showRandomMessage() {
+    var randomIndex = Math.floor(Math.random() * messages.length);
+    var message = messages[randomIndex];
+    message.style.top = Math.random() * 80 + "%";
+    message.style.left = Math.random() * 80 + "%";
+    message.style.display = "block";
+    setTimeout(function() {
+        message.style.display = "none";
+    }, 5000);
+}
+
+var countdownFunction = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+    if (distance < 0) {
+        clearInterval(countdownFunction);
+        countdownElement.style.display = "none";
+        beeMessageElement.style.display = "none";
+        beeImageElement.style.display = "none";
+    } else if (distance < 300000) { // 5 minutes
+        countdownElement.className = "large";
+        beeMessageElement.style.display = "block";
+        beeImageElement.style.display = "block";
+    } else if (distance < 600000) { // 10 minutes
+        countdownElement.className = "medium";
+    } else {
+        countdownElement.className = "small";
+    }
+}, 1000);
+
+setInterval(showRandomMessage, 15000); // Show a random message every 15 seconds
+
+</script>
+
+</body>
+</html>
