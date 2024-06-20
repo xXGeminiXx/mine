@@ -121,7 +121,7 @@ body {
 function getNext6PM() {
     var now = new Date();
     var target = new Date();
-    target.setHours(18, 0, 0, 0); // 6:00 PM
+    target.setHours(19, 0, 0, 0); // 6:00 PM
 
     if (now > target) {
         target.setDate(target.getDate() + 1); // If it's past 6 PM, target 6 PM the next day
