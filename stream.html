@@ -47,6 +47,16 @@ body {
     75% { transform: translateX(5px); }
 }
 
+@keyframes pollenBurst {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+@keyframes fall {
+    0% { top: -50px; opacity: 1; }
+    100% { top: 100vh; opacity: 0; }
+}
+
 .message {
     position: absolute;
     font-size: 36px;
@@ -68,6 +78,25 @@ body {
 .swarm .bee-image {
     width: 30px;
     margin: 5px;
+}
+
+.pollen-burst {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: yellow;
+    border-radius: 50%;
+    animation: pollenBurst 1s infinite;
+}
+
+.honey-drop {
+    position: absolute;
+    top: -50px;
+    width: 20px;
+    height: 30px;
+    background: orange;
+    border-radius: 50% 50% 0 0;
+    animation: fall 7s infinite;
 }
 </style>
 </head>
@@ -121,6 +150,7 @@ var bee1 = document.getElementById("bee1");
 var bee2 = document.getElementById("bee2");
 var swarm = document.getElementById("swarm");
 
+// Randomly display messages
 function showRandomMessage() {
     var randomIndex = Math.floor(Math.random() * messages.length);
     var message = messages[randomIndex];
@@ -132,17 +162,20 @@ function showRandomMessage() {
     }, 7000);
 }
 
+// Show a bee with random animations and effects
 function showBee(bee) {
     bee.style.display = "block";
     bee.style.top = Math.random() * 80 + "%";
     bee.style.left = Math.random() * 80 + "%";
     var randomAction = Math.random();
-    if (randomAction < 0.33) {
+    if (randomAction < 0.25) {
         bee.style.animation = "fly 5s infinite";
-    } else if (randomAction < 0.66) {
+    } else if (randomAction < 0.5) {
         bee.style.animation = "bounce 2s infinite";
-    } else {
+    } else if (randomAction < 0.75) {
         bee.style.animation = "beeDance 4s infinite";
+    } else {
+        bee.style.animation = "beeTrail 4s infinite";
     }
     setTimeout(function() {
         bee.style.display = "none";
@@ -150,20 +183,67 @@ function showBee(bee) {
     }, 15000);
 }
 
+// Display a swarm of bees
 function showSwarm() {
     swarm.style.top = Math.random() * 80 + "%";
     swarm.style.left = Math.random() * 80 + "%";
     swarm.style.display = "flex";
+    swarm.style.animation = "beeBuzz 3s infinite";
     setTimeout(function() {
         swarm.style.display = "none";
+        swarm.style.animation = "";
+    }, 10000);
+}
+
+// Create a pollen burst effect
+function showPollenBurst() {
+    var pollenBurst = document.createElement("div");
+    pollenBurst.className = "pollen-burst";
+    pollenBurst.style.top = Math.random() * 80 + "%";
+    pollenBurst.style.left = Math.random() * 80 + "%";
+    document.body.appendChild(pollenBurst);
+    setTimeout(function() {
+        document.body.removeChild(pollenBurst);
     }, 5000);
 }
 
-setInterval(showRandomMessage, 20000);
-setInterval(function() { showBee(bee1); }, 45000);
-setInterval(function() { showBee(bee2); }, 60000);
-setInterval(showSwarm, 600000);
+// Add honey drops falling from top
+function showHoneyDrops() {
+    for (var i = 0; i < 5; i++) {
+        var honeyDrop = document.createElement("div");
+        honeyDrop.className = "honey-drop";
+        honeyDrop.style.left = Math.random() * 100 + "%";
+        document.body.appendChild(honeyDrop);
+        setTimeout(function() {
+            document.body.removeChild(honeyDrop);
+        }, 7000);
+    }
+}
 
+// Main loop to randomly display effects
+function mainLoop() {
+    var randomTime = Math.random() * 10000 + 5000;
+    setTimeout(function() {
+        var randomEffect = Math.random();
+        if (randomEffect < 0.2) {
+            showRandomMessage();
+        } else if (randomEffect < 0.4) {
+            showBee(bee1);
+        } else if (randomEffect < 0.6) {
+            showBee(bee2);
+        } else if (randomEffect < 0.8) {
+            showSwarm();
+        } else if (randomEffect < 0.9) {
+            showPollenBurst();
+        } else {
+            showHoneyDrops();
+        }
+        mainLoop();
+    }, randomTime);
+}
+
+// Start the main loop
+mainLoop();
 </script>
 
 </body>
