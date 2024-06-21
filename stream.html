@@ -18,7 +18,6 @@ body {
 .bee-image {
     position: absolute;
     width: 100px;
-    cursor: pointer;
     display: none;
 }
 
@@ -35,11 +34,6 @@ body {
 @keyframes fadeMessage {
     0%, 100% { opacity: 0; }
     50% { opacity: 1; }
-}
-
-@keyframes honeyFlow {
-    0% { transform: scaleY(0); }
-    100% { transform: scaleY(1); }
 }
 
 @keyframes beeDance {
@@ -62,24 +56,6 @@ body {
     display: none;
 }
 
-#gotcha-message {
-    position: absolute;
-    font-size: 36px;
-    color: red;
-    text-shadow: 3px 3px 6px #000000;
-    display: none;
-}
-
-#honey {
-    position: absolute;
-    width: 60px;
-    height: 100px;
-    background: linear-gradient(to bottom, #FFD700, #FFA500);
-    border-radius: 10px;
-    animation: honeyFlow 3s ease-out forwards;
-    display: none;
-}
-
 .swarm {
     position: absolute;
     width: 150px;
@@ -99,8 +75,6 @@ body {
 
 <img id="bee1" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
 <img id="bee2" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
-
-<div id="gotcha-message">Gotcha!</div>
 
 <div id="message1" class="message">Bee kind to others!</div>
 <div id="message2" class="message">Spread posi-bee-tivity!</div>
@@ -133,8 +107,6 @@ body {
 <div id="message29" class="message">Bee the reason someone smiles today!</div>
 <div id="message30" class="message">Love is the answer!</div>
 
-<div id="honey"></div>
-
 <div class="swarm" id="swarm">
     <img class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Bee">
     <img class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Bee">
@@ -147,8 +119,6 @@ body {
 var messages = document.getElementsByClassName("message");
 var bee1 = document.getElementById("bee1");
 var bee2 = document.getElementById("bee2");
-var gotchaMessage = document.getElementById("gotcha-message");
-var honey = document.getElementById("honey");
 var swarm = document.getElementById("swarm");
 
 function showRandomMessage() {
@@ -180,24 +150,6 @@ function showBee(bee) {
     }, 15000);
 }
 
-function showGotchaMessage() {
-    gotchaMessage.style.display = "block";
-    gotchaMessage.style.top = bee1.style.top;
-    gotchaMessage.style.left = bee1.style.left;
-    setTimeout(function() {
-        gotchaMessage.style.display = "none";
-    }, 2000);
-}
-
-function showHoney() {
-    honey.style.top = Math.random() * 80 + "%";
-    honey.style.left = Math.random() * 80 + "%";
-    honey.style.display = "block";
-    setTimeout(function() {
-        honey.style.display = "none";
-    }, 3000);
-}
-
 function showSwarm() {
     swarm.style.top = Math.random() * 80 + "%";
     swarm.style.left = Math.random() * 80 + "%";
@@ -210,7 +162,6 @@ function showSwarm() {
 setInterval(showRandomMessage, 20000);
 setInterval(function() { showBee(bee1); }, 45000);
 setInterval(function() { showBee(bee2); }, 60000);
-setInterval(showHoney, 70000);
 setInterval(showSwarm, 600000);
 
 </script>
