@@ -15,6 +15,16 @@ body {
     overflow: hidden;
 }
 
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px; /* Adjust height to cover the taskbar */
+    background-color: yellow;
+    z-index: 10;
+}
+
 .bee-image {
     position: absolute;
     width: 100px;
@@ -95,12 +105,14 @@ body {
     width: 20px;
     height: 30px;
     background: orange;
-    border-radius: 50% 50% 0 0;
+    border-radius: 0 0 50% 50%;
     animation: fall 7s infinite;
 }
 </style>
 </head>
 <body>
+
+<div class="overlay"></div>
 
 <img id="bee1" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
 <img id="bee2" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
@@ -125,7 +137,7 @@ body {
 <div id="message18" class="message">Bee a friend to all!</div>
 <div id="message19" class="message">Choose kindness!</div>
 <div id="message20" class="message">Your kindness matters!</div>
-<div id="message21" class="message">Give generously!</div>
+<div id="message21" class="message">Give within your means!</div>
 <div id="message22" class="message">Inspire kindness!</div>
 <div id="message23" class="message">Love others unconditionally!</div>
 <div id="message24" class="message">Brighten someone's day!</div>
@@ -135,6 +147,26 @@ body {
 <div id="message28" class="message">Make a difference!</div>
 <div id="message29" class="message">Bee the reason someone smiles today!</div>
 <div id="message30" class="message">Love is the answer!</div>
+<div id="message31" class="message">You may not be able to easily change the world, but you CAN change SOMEONE's world easily every day!</div>
+<div id="message32" class="message">Bee thoughtful!</div>
+<div id="message33" class="message">A little kindness goes a long way!</div>
+<div id="message34" class="message">Bee someone’s sunshine!</div>
+<div id="message35" class="message">Help others when you can!</div>
+<div id="message36" class="message">Bee the light in the darkness!</div>
+<div id="message37" class="message">Spread joy wherever you go!</div>
+<div id="message38" class="message">Give what you can, when you can!</div>
+<div id="message39" class="message">Bee generous with your kindness!</div>
+<div id="message40" class="message">Bee the reason someone believes in the goodness of people!</div>
+<div id="message41" class="message">Bee there for someone in need!</div>
+<div id="message42" class="message">Bee patient and understanding!</div>
+<div id="message43" class="message">Small acts of kindness can make a big difference!</div>
+<div id="message44" class="message">Bee a ray of hope!</div>
+<div id="message45" class="message">Help others bloom!</div>
+<div id="message46" class="message">Bee a helper, not a hinderer!</div>
+<div id="message47" class="message">Your kindness can light up the world!</div>
+<div id="message48" class="message">Bee an example of goodness!</div>
+<div id="message49" class="message">Kindness costs nothing but means everything!</div>
+<div id="message50" class="message">Bee the change you wish to see in the world!</div>
 
 <div class="swarm" id="swarm">
     <img class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Bee">
@@ -144,11 +176,14 @@ body {
     <img class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Bee">
 </div>
 
+<div id="swarmMessage" class="message" style="display:none;">Swarm Alert! Bees incoming!</div>
+
 <script>
 var messages = document.getElementsByClassName("message");
 var bee1 = document.getElementById("bee1");
 var bee2 = document.getElementById("bee2");
 var swarm = document.getElementById("swarm");
+var swarmMessage = document.getElementById("swarmMessage");
 
 // Randomly display messages
 function showRandomMessage() {
@@ -175,7 +210,10 @@ function showBee(bee) {
     } else if (randomAction < 0.75) {
         bee.style.animation = "beeDance 4s infinite";
     } else {
-        bee.style.animation = "beeTrail 4s infinite";
+        bee.style.animation = "beeBuzz 4s infinite";
+    }
+    if (Math.random() < 0.3) {
+        showRandomMessage();
     }
     setTimeout(function() {
         bee.style.display = "none";
@@ -183,15 +221,19 @@ function showBee(bee) {
     }, 15000);
 }
 
-// Display a swarm of bees
+// Display a swarm of bees with a related message
 function showSwarm() {
     swarm.style.top = Math.random() * 80 + "%";
     swarm.style.left = Math.random() * 80 + "%";
     swarm.style.display = "flex";
     swarm.style.animation = "beeBuzz 3s infinite";
+    swarmMessage.style.top = (parseFloat(swarm.style.top) + 10) + "%";
+    swarmMessage.style.left = (parseFloat(swarm.style.left) + 10) + "%";
+    swarmMessage.style.display = "block";
     setTimeout(function() {
         swarm.style.display = "none";
         swarm.style.animation = "";
+        swarmMessage.style.display = "none";
     }, 10000);
 }
 
@@ -204,46 +246,39 @@ function showPollenBurst() {
     document.body.appendChild(pollenBurst);
     setTimeout(function() {
         document.body.removeChild(pollenBurst);
-    }, 5000);
+    }, 1000);
 }
 
-// Add honey drops falling from top
+// Create honey drops
 function showHoneyDrops() {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 10; i++) {
         var honeyDrop = document.createElement("div");
         honeyDrop.className = "honey-drop";
         honeyDrop.style.left = Math.random() * 100 + "%";
         document.body.appendChild(honeyDrop);
-        setTimeout(function() {
-            document.body.removeChild(honeyDrop);
-        }, 7000);
+        setTimeout(function(honeyDrop) {
+            return function() {
+                document.body.removeChild(honeyDrop);
+            };
+        }(honeyDrop), 7000);
     }
 }
 
-// Main loop to randomly display effects
-function mainLoop() {
-    var randomTime = Math.random() * 10000 + 5000;
-    setTimeout(function() {
-        var randomEffect = Math.random();
-        if (randomEffect < 0.2) {
-            showRandomMessage();
-        } else if (randomEffect < 0.4) {
-            showBee(bee1);
-        } else if (randomEffect < 0.6) {
-            showBee(bee2);
-        } else if (randomEffect < 0.8) {
-            showSwarm();
-        } else if (randomEffect < 0.9) {
-            showPollenBurst();
-        } else {
-            showHoneyDrops();
-        }
-        mainLoop();
-    }, randomTime);
-}
-
-// Start the main loop
-mainLoop();
+// Main animation loop
+setInterval(function() {
+    showRandomMessage();
+    showBee(bee1);
+    showBee(bee2);
+    if (Math.random() < 0.2) {
+        showSwarm();
+    }
+    if (Math.random() < 0.3) {
+        showPollenBurst();
+    }
+    if (Math.random() < 0.2) {
+        showHoneyDrops();
+    }
+}, 10000);
 </script>
 
 </body>
