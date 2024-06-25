@@ -34,7 +34,10 @@ body {
 @keyframes fly {
     0%, 100% { transform: translateX(-200%); }
     50% { transform: translateX(200%); }
+    /* Increase the duration to slow down the animation */
+    animation-duration: 10s;
 }
+
 
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
