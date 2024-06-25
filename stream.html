@@ -319,6 +319,7 @@ function showHoneyStorm() {
     setTimeout(function() {
         honeyDrops.forEach(function(drop) {
             document.body.removeChild(drop);
+	    document.body.removeChild(bee);
         });
     }, 10000);
 }
