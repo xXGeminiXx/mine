@@ -147,8 +147,6 @@ body {
 
 <div id="message1" class="message">Bee kind to others!</div>
 <div id="message2" class="message">Spread posi-bee-tivity!</div>
-<div id="message1" class="message">Bee kind to others!</div>
-<div id="message2" class="message">Spread posi-bee-tivity!</div>
 <div id="message3" class="message">Help someone today!</div>
 <div id="message4" class="message">You are buzz-worthy!</div>
 <div id="message5" class="message">Stay bee-sitive!</div>
@@ -273,7 +271,7 @@ function showSwarm() {
     swarm.style.top = Math.random() * 80 + "%";
     swarm.style.left = Math.random() * 80 + "%";
     swarm.style.display = "flex";
-    swarm.width: 150px; /* Adjusted for larger size */
+    swarm.style.width = "150px";
     swarm.style.animation = "beeBuzz 3s infinite";
     swarmMessage.style.top = (parseFloat(swarm.style.top) + 10) + "%";
     swarmMessage.style.left = (parseFloat(swarm.style.left) + 10) + "%";
