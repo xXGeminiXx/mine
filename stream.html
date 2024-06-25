@@ -137,8 +137,13 @@ body {
 
 <div class="overlay"></div>
 
-<img id="bee1" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
-<img id="bee2" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
+<img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee">
+<img id="beeCelebrate" class="bee-image" src="BeeBrainBeecelebrate.png" alt="Celebrating Bee">
+<img id="beeNoFace" class="bee-image" src="BeeBrainBeenoface.png" alt="No Face Bee">
+<img id="beeAngry" class="bee-image" src="BeeBrainBeenofaceangry.png" alt="Angry Bee">
+<img id="beeLove" class="bee-image" src="BeeBrainBeenofacelove.png" alt="Love Bee">
+<img id="beeSad" class="bee-image" src="BeeBrainBeenofacesad.png" alt="Sad Bee">
+<img id="beeSurprise" class="bee-image" src="BeeBrainBeenofacesurprise.png" alt="Surprise Bee">
 
 <div id="message1" class="message">Bee kind to others!</div>
 <div id="message2" class="message">Spread posi-bee-tivity!</div>
@@ -146,9 +151,13 @@ body {
 <div id="message50" class="message">Bee the change you wish to see in the world!</div>
 
 <div class="swarm" id="swarm">
-    <img class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Bee">
-    <img class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Bee">
-    <!-- ... additional bees ... -->
+    <img class="bee-image" src="BeeBrainBee2.png" alt="Bee">
+    <img class="bee-image" src="BeeBrainBeecelebrate.png" alt="Bee">
+    <img class="bee-image" src="BeeBrainBeenoface.png" alt="Bee">
+    <img class="bee-image" src="BeeBrainBeenofaceangry.png" alt="Bee">
+    <img class="bee-image" src="BeeBrainBeenofacelove.png" alt="Bee">
+    <img class="bee-image" src="BeeBrainBeenofacesad.png" alt="Bee">
+    <img class="bee-image" src="BeeBrainBeenofacesurprise.png" alt="Bee">
 </div>
 
 <div id="swarmMessage" class="message" style="display:none;">Swarm Alert! Bees incoming!</div>
@@ -158,8 +167,15 @@ body {
 
 <script>
 var messages = document.getElementsByClassName("message");
-var bee1 = document.getElementById("bee1");
-var bee2 = document.getElementById("bee2");
+var beeImages = [
+    "BeeBrainBee2.png",
+    "BeeBrainBeecelebrate.png",
+    "BeeBrainBeenoface.png",
+    "BeeBrainBeenofaceangry.png",
+    "BeeBrainBeenofacelove.png",
+    "BeeBrainBeenofacesad.png",
+    "BeeBrainBeenofacesurprise.png"
+];
 var swarm = document.getElementById("swarm");
 var swarmMessage = document.getElementById("swarmMessage");
 var pollenDescriptor = document.getElementById("pollenDescriptor");
@@ -176,10 +192,15 @@ function showRandomMessage() {
     }, 7000);
 }
 
-function showBee(bee) {
+function showBee() {
+    var randomIndex = Math.floor(Math.random() * beeImages.length);
+    var bee = document.createElement("img");
+    bee.src = beeImages[randomIndex];
+    bee.className = "bee-image";
     bee.style.display = "block";
     bee.style.top = Math.random() * 80 + "%";
     bee.style.left = Math.random() * 80 + "%";
+    document.body.appendChild(bee);
     var randomAction = Math.random();
     if (randomAction < 0.25) {
         bee.style.animation = "fly 5s infinite";
@@ -194,8 +215,8 @@ function showBee(bee) {
         showRandomMessage();
     }
     setTimeout(function() {
-        bee.style.display = "none";
-        bee.style.animation = "";
+        document.body.removeChild(bee);
+								 
     }, 15000);
 }
 
@@ -225,62 +246,64 @@ function showPollenBurst() {
     pollenBurst.style.top = Math.random() * 80 + "%";
     pollenBurst.style.left = Math.random() * 80 + "%";
     document.body.appendChild(pollenBurst);
-    
-    var burstLabel = document.createElement("div");
-    burstLabel.className = "burst-label";
-    burstLabel.innerText = "Burst";
-    burstLabel.style.top = (parseFloat(pollenBurst.style.top) - 10) + "%";
-    burstLabel.style.left = (parseFloat(pollenBurst.style.left) + 5) + "%";
-    document.body.appendChild(burstLabel);
-    
+	
+												   
+										 
+								   
+																		  
+																		   
+										  
+	
     setTimeout(function() {
         document.body.removeChild(pollenBurst);
-        document.body.removeChild(burstLabel);
+											  
     }, 1000);
 }
 
-function showHoneyDrops() {
+function showHoneyStorm() {
     honeyDescriptor.style.display = "block";
-    honeyDescriptor.style.animation = "shake 1s";
+												 
     setTimeout(function() {
         honeyDescriptor.style.display = "none";
     }, 1000);
     
-    var honeyDropsInterval = setInterval(function() {
-        for (var i = 0; i < 10; i++) {
-            var honeyDrop = document.createElement("div");
-            honeyDrop.className = "honey-drop";
-            honeyDrop.style.left = Math.random() * 100 + "%";
-            document.body.appendChild(honeyDrop);
-            setTimeout(function(honeyDrop) {
-                return function() {
-                    document.body.removeChild(honeyDrop);
-                };
-            }(honeyDrop), 7000);
-        }
-    }, 500);
-    
+    var honeyDrops = [];
+    for (var i = 0; i < 20; i++) {
+        var honeyDrop = document.createElement("div");
+        honeyDrop.className = "honey-drop";
+        honeyDrop.style.left = Math.random() * 100 + "%";
+        honeyDrops.push(honeyDrop);
+											
+								   
+        document.body.appendChild(honeyDrop);
+    }
+								
+		 
+			
+	
     setTimeout(function() {
-        clearInterval(honeyDropsInterval);
-    }, 35000);
+        honeyDrops.forEach(function(drop) {
+            document.body.removeChild(drop);
+        });
+    }, 10000);
 }
 
-setInterval(function() {
-    var randomEvent = Math.random();
-    if (randomEvent < 0.05) {
-        showBee(bee1);
-    } else if (randomEvent < 0.1) {
-        showBee(bee2);
-    } else if (randomEvent < 0.15) {
-        showSwarm();
-    } else if (randomEvent < 0.25) {
-        for (var i = 0; i < 5; i++) {
-            setTimeout(showPollenBurst, i * 1000);
-        }
-    } else if (randomEvent < 0.35) {
-        showHoneyDrops();
-    }
-}, 10000);
+setInterval(showBee, 15000);
+setInterval(showSwarm, 60000);
+							 
+					  
+								   
+					  
+									
+					
+									
+									 
+setInterval(showPollenBurst, 30000);
+setInterval(showHoneyStorm, 45000);
+									
+						 
+	 
+		  
 </script>
 
 </body>
