@@ -34,10 +34,8 @@ body {
 @keyframes fly {
     0%, 100% { transform: translateX(-200%); }
     50% { transform: translateX(200%); }
-    /* Increase the duration to slow down the animation */
-    animation-duration: 4s;
+    animation-duration: 8s; /* Slowed down the animation */
 }
-
 
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
@@ -135,6 +133,7 @@ body {
 </head>
 <body>
 
+	
 <div class="overlay"></div>
 
 <img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee">
@@ -211,7 +210,6 @@ body {
 
 <div id="pollenDescriptor" class="descriptor">POLLEN BURSTS!</div>
 <div id="honeyDescriptor" class="descriptor">HONEY STORM!</div>
-
 <script>
 var messages = document.getElementsByClassName("message");
 var beeImages = [
@@ -263,7 +261,6 @@ function showBee() {
     }
     setTimeout(function() {
         document.body.removeChild(bee);
-								 
     }, 15000);
 }
 
@@ -296,13 +293,11 @@ function showPollenBurst() {
     document.body.appendChild(pollenBurst);
     setTimeout(function() {
         document.body.removeChild(pollenBurst);
-											  
     }, 1000);
 }
 
 function showHoneyStorm() {
     honeyDescriptor.style.display = "block";
-												 
     setTimeout(function() {
         honeyDescriptor.style.display = "none";
     }, 1000);
@@ -319,19 +314,16 @@ function showHoneyStorm() {
     setTimeout(function() {
         honeyDrops.forEach(function(drop) {
             document.body.removeChild(drop);
-	    document.body.removeChild(bee);
         });
     }, 10000);
 }
+
 setInterval(showBee, 15000);
 setInterval(showSwarm, 60000);					 
 setInterval(showPollenBurst, 30000);
 setInterval(showHoneyStorm, 45000);
-									
-						 
-	 
-		  
 </script>
+
 
 </body>
 </html>
