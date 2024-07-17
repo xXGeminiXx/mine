@@ -29,7 +29,7 @@ button {
     <button onclick="sendCommand('rave')">Start Rave</button>
 
 <script>
-    var socket = new WebSocket('ws://localhost:8080');
+    var socket = new WebSocket('ws://localhost:8282');
 
     function sendCommand(action) {
         var data = JSON.stringify({ action: action });
