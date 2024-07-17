@@ -27,9 +27,20 @@ button {
     <button onclick="sendCommand('showPollenBurst')">Show Pollen Burst</button>
     <button onclick="sendCommand('showHoneyStorm')">Show Honey Storm</button>
     <button onclick="sendCommand('rave')">Start Rave</button>
+    <button onclick="sendCommand('beeParty')">Bee Party</button>
+    <button onclick="sendCommand('beeFlash')">Bee Flash</button>
+    <button onclick="sendCommand('beeChase')">Bee Chase</button>
 
 <script>
     var socket = new WebSocket('ws://localhost:8282');
+
+    socket.onopen = function() {
+        console.log('WebSocket connection established');
+    };
+
+    socket.onmessage = function(event) {
+        console.log('Received:', event.data);
+    };
 
     function sendCommand(action) {
         var data = JSON.stringify({ action: action });
