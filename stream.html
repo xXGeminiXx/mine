@@ -323,6 +323,58 @@ function showHoneyStorm() {
     }, 10000);
 }
 
+
+//New web controller functionality
+<script>
+    var socket = new WebSocket('ws://localhost:8080');
+
+    socket.onmessage = function(event) {
+        var data = JSON.parse(event.data);
+        if (data.action === 'showBee') {
+            showBee();
+        } else if (data.action === 'showSwarm') {
+            showSwarm();
+        } else if (data.action === 'showPollenBurst') {
+            showPollenBurst();
+        } else if (data.action === 'showHoneyStorm') {
+            showHoneyStorm();
+        } else if (data.action === 'rave') {
+            startRave();
+        }
+    };
+
+    function startRave() {
+        // Laser effects
+        for (let i = 0; i < 20; i++) {
+            let laser = document.createElement('div');
+            laser.className = 'laser';
+            laser.style.left = (i * 5) + '%';
+            document.body.appendChild(laser);
+        }
+        // Dancing bees
+        for (let i = 0; i < 10; i++) {
+            let dancingBee = document.createElement('img');
+            dancingBee.src = 'BeeBrainBee2.png';
+            dancingBee.className = 'bee-image';
+            dancingBee.style.top = (Math.random() * 80) + '%';
+            dancingBee.style.left = (Math.random() * 80) + '%';
+            dancingBee.style.animation = 'beeDance 2s infinite';
+            document.body.appendChild(dancingBee);
+        }
+        setTimeout(() => {
+            let lasers = document.querySelectorAll('.laser');
+            lasers.forEach(laser => laser.remove());
+            let bees = document.querySelectorAll('.bee-image');
+            bees.forEach(bee => bee.remove());
+        }, 10000); // Stop rave after 10 seconds
+    }
+
+    function showBee() { /* Your existing showBee function... */ }
+    function showSwarm() { /* Your existing showSwarm function... */ }
+    function showPollenBurst() { /* Your existing showPollenBurst function... */ }
+    function showHoneyStorm() { /* Your existing showHoneyStorm function... */ }
+</script>
+
 setInterval(showBee, 15000);
 setInterval(showSwarm, 60000);					 
 setInterval(showPollenBurst, 30000);
