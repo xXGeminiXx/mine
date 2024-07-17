@@ -18,66 +18,22 @@ body {
 
 .overlay {
     position: absolute;
-    bottom: 0;  /* Aligns to the bottom of the screen */
-    left: 0;    /* Starts from the left side of the screen */
+    bottom: 0;
+    left: 0;
     width: calc(100% - 330px); /* Leaves space for the facecam */
-    height: 40px; /* Adjust height to match the taskbar's height */
+    height: 40px;
     background-color: yellow;
-    z-index: 500; /* Ensures it appears above other elements */
+    z-index: 500;
 }
 
 .bee-image {
     position: absolute;
     width: 800px;
-    z-index: 1000; /* Higher than other elements */
+    z-index: 1000;
     display: none;
 }
 
-@keyframes fly {
-    0%, 100% { transform: translateX(-200%); }
-    50% { transform: translateX(200%); }
-    animation-duration: 8s; /* Slowed down the animation */
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-100px); }
-}
-
-@keyframes fadeMessage {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
-}
-
-@keyframes beeDance {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(360deg); }
-}
-
-@keyframes beeBuzz {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-    animation-duration: 4s;
-}
-
-@keyframes pollenBurst {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(3); opacity: 0; }
-}
-@keyframes fall {
-    0% { top: -50px; opacity: 1; }
-    100% { top: 100vh; opacity: 0; }
-}
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-@keyframes lasers {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(10px); }
-}
+/* Add your existing keyframes and styles here */
 
 .message {
     position: absolute;
@@ -149,7 +105,24 @@ body {
 <body>
 <div class="overlay"></div>
 
-<!-- Your existing HTML elements... -->
+<img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee">
+<img id="beeCelebrate" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeecelebrate.png" alt="Celebrating Bee" width="400" height="400">
+<img id="beeNoFace" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenoface.png" alt="No Face Bee" width="400" height="400">
+<img id="beeAngry" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofaceangry.png" alt="Angry Bee" width="400" height="400">
+<img id="beeLove" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacelove.png" alt="Love Bee" width="400" height="400">
+<img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="400" height="400">
+<img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="400" height="400">
+
+<div id="message1" class="message">Bee kind to others!</div>
+<div id="message2" class="message">Spread posi-bee-tivity!</div>
+<div id="message3" class="message">Help someone today!</div>
+<div id="message4" class="message">You are buzz-worthy!</div>
+<div id="message5" class="message">Stay bee-sitive!</div>
+<div id="message6" class="message">Bee-lieve in yourself!</div>
+<div id="message7" class="message">Keep bee-ing awesome!</div>
+<div id="message8" class="message">Bee the change!</div>
+<div id="message9" class="message">You can do it!</div>
+<div id="message10" class="message">Spread love and joy!</div>
 
 <script>
 var socket = new WebSocket('ws://localhost:8282');
@@ -180,6 +153,14 @@ socket.onmessage = function(event) {
     }
 };
 
+socket.onerror = function(error) {
+    console.error('WebSocket error:', error);
+};
+
+socket.onclose = function() {
+    console.log('WebSocket connection closed');
+};
+
 var beeImages = [
     "BeeBrainBee2.png",
     "BeeBrainBeecelebrate.png",
@@ -192,6 +173,7 @@ var beeImages = [
 var bees = [];
 
 function showBee() {
+    console.log('Executing showBee');
     var bee = createBee();
     document.body.appendChild(bee);
     bees.push(bee);
@@ -260,7 +242,7 @@ function isColliding(bee1, bee2) {
 }
 
 function interactBees(bee1, bee2) {
-    // Perform interaction logic here, e.g., change color or animation
+    console.log('Bees are interacting');
     bee1.style.animation = "bounce 1s";
     bee2.style.animation = "bounce 1s";
     setTimeout(() => {
@@ -270,12 +252,14 @@ function interactBees(bee1, bee2) {
 }
 
 function showSwarm() {
+    console.log('Executing showSwarm');
     for (let i = 0; i < 10; i++) {
         showBee();
     }
 }
 
 function showPollenBurst() {
+    console.log('Executing showPollenBurst');
     var pollenDescriptor = document.createElement('div');
     pollenDescriptor.className = 'descriptor';
     pollenDescriptor.innerText = 'POLLEN BURSTS!';
@@ -295,6 +279,7 @@ function showPollenBurst() {
 }
 
 function showHoneyStorm() {
+    console.log('Executing showHoneyStorm');
     var honeyDescriptor = document.createElement('div');
     honeyDescriptor.className = 'descriptor';
     honeyDescriptor.innerText = 'HONEY STORM!';
@@ -315,6 +300,7 @@ function showHoneyStorm() {
 }
 
 function startRave() {
+    console.log('Executing startRave');
     for (let i = 0; i < 20; i++) {
         let laser = document.createElement('div');
         laser.className = 'laser';
@@ -339,6 +325,7 @@ function startRave() {
 }
 
 function beeParty() {
+    console.log('Executing beeParty');
     var partyDescriptor = document.createElement('div');
     partyDescriptor.className = 'descriptor';
     partyDescriptor.innerText = 'BEE PARTY!';
@@ -359,6 +346,7 @@ function beeParty() {
 }
 
 function beeFlash() {
+    console.log('Executing beeFlash');
     var flashDescriptor = document.createElement('div');
     flashDescriptor.className = 'descriptor';
     flashDescriptor.innerText = 'BEE FLASH!';
@@ -379,6 +367,7 @@ function beeFlash() {
 }
 
 function beeChase() {
+    console.log('Executing beeChase');
     var chaseDescriptor = document.createElement('div');
     chaseDescriptor.className = 'descriptor';
     chaseDescriptor.innerText = 'BEE CHASE!';
