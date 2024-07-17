@@ -2,11 +2,13 @@
 <html>
 <head>
 <style>
+/* Your existing styles... */
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
     background-color: #000;
     color: white;
@@ -14,129 +16,300 @@ body {
     overflow: hidden;
 }
 
-#countdown {
-    font-size: 144px; /* Three times bigger */
-    text-align: center;
-    transition: all 0.5s ease;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    padding: 10px;
-    border-radius: 10px;
-    text-shadow: 2px 2px 4px #000000; /* Outline */
-}
-
-.small {
-    font-size: 144px; /* Three times bigger */
-    color: white;
-}
-
-.medium {
-    font-size: 216px; /* Three times bigger */
-    color: yellow;
-    transform: scale(1.1);
-}
-
-.large {
-    font-size: 288px; /* Three times bigger */
-    color: red;
-    font-weight: bold;
-    animation: shake 0.5s;
-    animation-iteration-count: infinite;
-}
-
-@keyframes shake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(3px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(3px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(1px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-#bee-message {
+.overlay {
     position: absolute;
-    bottom: 10%;
-    font-size: 48px;
-    color: #FFD700;
-    animation: fade 5s infinite;
-    display: none;
-    text-shadow: 2px 2px 4px #000000; /* Outline */
+    bottom: 0;  /* Aligns to the bottom of the screen */
+    left: 0;    /* Starts from the left side of the screen */
+    width: calc(100% - 330px); /* Leaves space for the facecam */
+    height: 40px; /* Adjust height to match the taskbar's height */
+    background-color: yellow;
+    z-index: 500; /* Ensures it appears above other elements */
 }
 
-@keyframes fade {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
-}
-
-#bee-image {
+.bee-image {
     position: absolute;
-    top: 10%;
-    width: 100px;
-    animation: fly 5s infinite;
+    width: 800px;
+    z-index: 1000; /* Higher than other elements */
     display: none;
 }
 
 @keyframes fly {
     0%, 100% { transform: translateX(-200%); }
     50% { transform: translateX(200%); }
+    animation-duration: 8s; /* Slowed down the animation */
 }
 
-.message {
-    position: absolute;
-    font-size: 36px;
-    color: #FFD700;
-    animation: fadeMessage 5s infinite;
-    text-shadow: 2px 2px 4px #000000; /* Outline */
-    display: none;
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-100px); }
 }
 
 @keyframes fadeMessage {
     0%, 100% { opacity: 0; }
     50% { opacity: 1; }
 }
+
+@keyframes beeDance {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(360deg); }
+}
+
+@keyframes beeBuzz {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    animation-duration: 4s;
+}
+
+@keyframes pollenBurst {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+@keyframes fall {
+    0% { top: -50px; opacity: 1; }
+    100% { top: 100vh; opacity: 0; }
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+@keyframes lasers {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+.message {
+    position: absolute;
+    font-size: 36px;
+    color: #FFD700;
+    animation: fadeMessage 7s infinite;
+    text-shadow: 3px 3px 6px #000000;
+    display: none;
+}
+.swarm {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    display: none;
+}
+
+.swarm .bee-image {
+    width: 30px;
+    margin: 5px;
+}
+
+.pollen-burst {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: yellow;
+    border-radius: 50%;
+    animation: pollenBurst 1s infinite;
+}
+
+.honey-drop {
+    position: absolute;
+    top: -50px;
+    width: 20px;
+    height: 30px;
+    background: orange;
+    border-radius: 0 0 50% 50%;
+    animation: fall 7s infinite;
+}
+
+.descriptor {
+    position: absolute;
+    font-size: 48px;
+    color: white;
+    animation: shake 1s;
+    display: none;
+    z-index: 20;
+    text-shadow: 4px 4px 8px #000000;
+}
+
+.burst-label {
+    position: absolute;
+    font-size: 24px;
+    color: black;
+    text-shadow: 2px 2px 4px #FFD700;
+}
+
+.laser {
+    position: absolute;
+    width: 2px;
+    height: 100vh;
+    background-color: lime;
+    animation: lasers 0.5s infinite;
+}
 </style>
 </head>
 <body>
+<div class="overlay"></div>
 
-<div id="countdown" class="small"></div>
-<div id="bee-message">Keep watching for the giveaway!</div>
-<img id="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/bee-image.png" alt="Flying Bee">
+<img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee">
+<img id="beeCelebrate" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeecelebrate.png" alt="Celebrating Bee" width="400" height="400">
+<img id="beeNoFace" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenoface.png" alt="No Face Bee" width="400" height="400">
+<img id="beeAngry" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofaceangry.png" alt="Angry Bee" width="400" height="400">
+<img id="beeLove" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacelove.png" alt="Love Bee" width="400" height="400">
+<img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="400" height="400">
+<img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="400" height="400">
 
-<div id="message1" class="message">Be kind to others!</div>
-<div id="message2" class="message">Spread positivity!</div>
+<div id="message1" class="message">Bee kind to others!</div>
+<div id="message2" class="message">Spread posi-bee-tivity!</div>
 <div id="message3" class="message">Help someone today!</div>
-<div id="message4" class="message">You are awesome!</div>
-<div id="message5" class="message">Stay positive!</div>
-<div id="message6" class="message">Believe in yourself!</div>
-<div id="message7" class="message">Keep smiling!</div>
-<div id="message8" class="message">Be the change!</div>
+<div id="message4" class="message">You are buzz-worthy!</div>
+<div id="message5" class="message">Stay bee-sitive!</div>
+<div id="message6" class="message">Bee-lieve in yourself!</div>
+<div id="message7" class="message">Keep bee-ing awesome!</div>
+<div id="message8" class="message">Bee the change!</div>
 <div id="message9" class="message">You can do it!</div>
 <div id="message10" class="message">Spread love and joy!</div>
 
 <script>
-function getNext6PM() {
-    var now = new Date();
-    var target = new Date();
-    target.setHours(18, 0, 0, 0); // 6:00 PM
+var socket = new WebSocket('ws://localhost:8080');
 
-    if (now > target) {
-        target.setDate(target.getDate() + 1); // If it's past 6 PM, target 6 PM the next day
+socket.onmessage = function(event) {
+    var data = JSON.parse(event.data);
+    if (data.action === 'showBee') {
+        showBee();
+    } else if (data.action === 'showSwarm') {
+        showSwarm();
+    } else if (data.action === 'showPollenBurst') {
+        showPollenBurst();
+    } else if (data.action === 'showHoneyStorm') {
+        showHoneyStorm();
+    } else if (data.action === 'rave') {
+        startRave();
     }
+};
 
-    return target.getTime();
+function showBee() {
+    var randomIndex = Math.floor(Math.random() * beeImages.length);
+    var bee = document.createElement("img");
+    bee.src = beeImages[randomIndex];
+    bee.className = "bee-image";
+    bee.style.display = "block";
+    var beeTop = Math.random() * 80;  // Keep within 80% of viewport height
+    var beeLeft = Math.random() * 80; // Keep within 80% of viewport width
+	    
+    bee.style.top = beeTop + "%";
+    bee.style.left = beeLeft + "%";
+	
+    document.body.appendChild(bee);
+    var randomAction = Math.random();
+    if (randomAction < 0.25) {
+        bee.style.animation = "fly 5s infinite";
+    } else if (randomAction < 0.5) {
+        bee.style.animation = "bounce 2s infinite";
+    } else if (randomAction < 0.75) {
+        bee.style.animation = "beeDance 4s infinite";
+    } else {
+        bee.style.animation = "beeBuzz 4s infinite";
+    }
+    if (Math.random() < 0.3) {
+        showRandomMessage();
+    }
+    setTimeout(function() {
+        document.body.removeChild(bee);
+    }, 15000);
 }
 
-var countDownDate = getNext6PM();
+function showSwarm() {
+    swarm.style.top = Math.random() * 80 + "%";
+    swarm.style.left = Math.random() * 80 + "%";
+    swarm.style.display = "flex";
+    swarm.style.width = "150px";
+    swarm.style.animation = "beeBuzz 3s infinite";
+    swarmMessage.style.top = (parseFloat(swarm.style.top) + 10) + "%";
+    swarmMessage.style.left = (parseFloat(swarm.style.left) + 10) + "%";
+    swarmMessage.style.display = "block";
+    setTimeout(function() {
+        swarm.style.display = "none";
+        swarm.style.animation = "";
+        swarmMessage.style.display = "none";
+    }, 10000);
+}
 
-var countdownElement = document.getElementById("countdown");
-var beeMessageElement = document.getElementById("bee-message");
-var beeImageElement = document.getElementById("bee-image");
+function showPollenBurst() {
+    pollenDescriptor.style.display = "block";
+    setTimeout(function() {
+        pollenDescriptor.style.display = "none";
+    }, 1000);
+    
+    var pollenBurst = document.createElement("div");
+    pollenBurst.className = "pollen-burst";
+    pollenBurst.style.top = Math.random() * 80 + "%";
+    pollenBurst.style.left = Math.random() * 80 + "%";
+    document.body.appendChild(pollenBurst);
+    setTimeout(function() {
+        document.body.removeChild(pollenBurst);
+    }, 1000);
+}
 
-var messages = document.getElementsByClassName("message");
+function showHoneyStorm() {
+    honeyDescriptor.style.display = "block";
+    setTimeout(function() {
+        honeyDescriptor.style.display = "none";
+    }, 1000);
+    
+    var honeyDrops = [];
+    for (var i = 0; i < 20; i++) {
+        var honeyDrop = document.createElement("div");
+        honeyDrop.className = "honey-drop";
+        honeyDrop.style.left = Math.random() * 100 + "%";
+        honeyDrops.push(honeyDrop);						   
+        document.body.appendChild(honeyDrop);
+    }
+
+    setTimeout(function() {
+        honeyDrops.forEach(function(drop) {
+            document.body.removeChild(drop);
+        });
+    }, 10000);
+}
+
+function startRave() {
+    // Laser effects
+    for (let i = 0; i < 20; i++) {
+        let laser = document.createElement('div');
+        laser.className = 'laser';
+        laser.style.left = (i * 5) + '%';
+        document.body.appendChild(laser);
+    }
+    // Dancing bees
+    for (let i = 0; i < 10; i++) {
+        let dancingBee = document.createElement('img');
+        dancingBee.src = 'BeeBrainBee2.png';
+        dancingBee.className = 'bee-image';
+        dancingBee.style.top = (Math.random() * 80) + '%';
+        dancingBee.style.left = (Math.random() * 80) + '%';
+        dancingBee.style.animation = 'beeDance 2s infinite';
+        document.body.appendChild(dancingBee);
+    }
+    setTimeout(() => {
+        let lasers = document.querySelectorAll('.laser');
+        lasers.forEach(laser => laser.remove());
+        let bees = document.querySelectorAll('.bee-image');
+        bees.forEach(bee => bee.remove());
+    }, 10000); // Stop rave after 10 seconds
+}
+
+var beeImages = [
+    "BeeBrainBee2.png",
+    "BeeBrainBeecelebrate.png",
+    "BeeBrainBeenoface.png",
+    "BeeBrainBeenofaceangry.png",
+    "BeeBrainBeenofacelove.png",
+    "BeeBrainBeenofacesad.png",
+    "BeeBrainBeenofacesurprise.png"
+];
+var swarm = document.getElementById("swarm");
+var swarmMessage = document.getElementById("swarmMessage");
+var pollenDescriptor = document.getElementById("pollenDescriptor");
+var honeyDescriptor = document.getElementById("honeyDescriptor");
 
 function showRandomMessage() {
     var randomIndex = Math.floor(Math.random() * messages.length);
@@ -146,38 +319,13 @@ function showRandomMessage() {
     message.style.display = "block";
     setTimeout(function() {
         message.style.display = "none";
-    }, 5000);
+    }, 7000);
 }
 
-var countdownFunction = setInterval(function() {
-    var now = new Date().getTime();
-    var distance = countDownDate - now;
-
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    countdownElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-
-    if (distance < 0) {
-        clearInterval(countdownFunction);
-        countdownElement.style.display = "none";
-        beeMessageElement.style.display = "none";
-        beeImageElement.style.display = "none";
-    } else if (distance < 300000) { // 5 minutes
-        countdownElement.className = "large";
-        beeMessageElement.style.display = "block";
-        beeImageElement.style.display = "block";
-    } else if (distance < 600000) { // 10 minutes
-        countdownElement.className = "medium";
-    } else {
-        countdownElement.className = "small";
-    }
-}, 1000);
-
-setInterval(showRandomMessage, 15000); // Show a random message every 15 seconds
-
+setInterval(showBee, 15000);
+setInterval(showSwarm, 60000);					 
+setInterval(showPollenBurst, 30000);
+setInterval(showHoneyStorm, 45000);
 </script>
-
 </body>
 </html>
