@@ -2,7 +2,6 @@
 <html>
 <head>
 <style>
-/* Your existing styles... */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -28,12 +27,10 @@ body {
 
 .bee-image {
     position: absolute;
+    width: 500px;
     z-index: 1000;
-    width: 600px;
     display: none;
 }
-
-/* Add your existing keyframes and styles here */
 
 .message {
     position: absolute;
@@ -95,29 +92,29 @@ body {
 
 .laser {
     position: absolute;
-    width: 5px;
-    height: 100%;
+    width: 3px;
+    height: 100vh;
     background-color: lime;
-    box-shadow: 0 0 20px lime, 0 0 30px lime;
-    animation: lasers 0.5s infinite alternate;
+    box-shadow: 0 0 10px lime, 0 0 20px lime;
+    animation: lasers 1s infinite alternate ease-in-out;
 }
 
 @keyframes lasers {
     0% { transform: translateY(0); }
-    100% { transform: translateY(10px); }
+    100% { transform: translateY(20px); }
 }
 </style>
 </head>
 <body>
 <div class="overlay"></div>
 
-<img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee">
-<img id="beeCelebrate" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeecelebrate.png" alt="Celebrating Bee" width="400" height="400">
-<img id="beeNoFace" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenoface.png" alt="No Face Bee" width="400" height="400">
-<img id="beeAngry" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofaceangry.png" alt="Angry Bee" width="400" height="400">
-<img id="beeLove" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacelove.png" alt="Love Bee" width="400" height="400">
-<img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="400" height="400">
-<img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="400" height="400">
+<img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee" width="500" height="500">
+<img id="beeCelebrate" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeecelebrate.png" alt="Celebrating Bee" width="500" height="500">
+<img id="beeNoFace" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenoface.png" alt="No Face Bee" width="500" height="500">
+<img id="beeAngry" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofaceangry.png" alt="Angry Bee" width="500" height="500">
+<img id="beeLove" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacelove.png" alt="Love Bee" width="500" height="500">
+<img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="500" height="500">
+<img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="500" height="500">
 
 <div id="message1" class="message">Bee kind to others!</div>
 <div id="message2" class="message">Spread posi-bee-tivity!</div>
@@ -206,7 +203,7 @@ function createBee() {
     bee.style.position = "absolute";
     bee.style.top = Math.random() * 80 + "%";
     bee.style.left = Math.random() * 80 + "%";
-    bee.style.width = "100px";
+    bee.style.width = "500px";
     bee.style.zIndex = 1000;
     bee.style.display = "block";  // Ensure the bee is visible
     return bee;
@@ -234,8 +231,11 @@ function moveBee(bee) {
 
         bees.forEach(otherBee => {
             if (otherBee !== bee && isColliding(bee, otherBee)) {
-                interactBees(bee, otherBee);
-                angle = (angle + Math.PI) % (2 * Math.PI); // Change direction
+                angle = (angle + (Math.random() > 0.5 ? 0.5 : -0.5) * Math.PI) % (2 * Math.PI); // Change direction less sensitively
+                newX = rect.left + speed * Math.cos(angle);
+                newY = rect.top + speed * Math.sin(angle);
+                bee.style.left = newX + "px";
+                bee.style.top = newY + "px";
             }
         });
 
