@@ -28,7 +28,7 @@ body {
 
 .bee-image {
     position: absolute;
-    width: 800px;
+    width: 100px;
     z-index: 1000;
     display: none;
 }
@@ -132,26 +132,38 @@ socket.onopen = function() {
 };
 
 socket.onmessage = function(event) {
-    var data = JSON.parse(event.data);
-    console.log('Received command:', data.action);
-    if (data.action === 'showBee') {
-        showBee();
-    } else if (data.action === 'showSwarm') {
-        showSwarm();
-    } else if (data.action === 'showPollenBurst') {
-        showPollenBurst();
-    } else if (data.action === 'showHoneyStorm') {
-        showHoneyStorm();
-    } else if (data.action === 'rave') {
-        startRave();
-    } else if (data.action === 'beeParty') {
-        beeParty();
-    } else if (data.action === 'beeFlash') {
-        beeFlash();
-    } else if (data.action === 'beeChase') {
-        beeChase();
+    if (typeof event.data === 'string') {
+        handleMessage(event.data);
+    } else {
+        event.data.text().then(handleMessage);
     }
 };
+
+function handleMessage(message) {
+    try {
+        var data = JSON.parse(message);
+        console.log('Received command:', data.action);
+        if (data.action === 'showBee') {
+            showBee();
+        } else if (data.action === 'showSwarm') {
+            showSwarm();
+        } else if (data.action === 'showPollenBurst') {
+            showPollenBurst();
+        } else if (data.action === 'showHoneyStorm') {
+            showHoneyStorm();
+        } else if (data.action === 'rave') {
+            startRave();
+        } else if (data.action === 'beeParty') {
+            beeParty();
+        } else if (data.action === 'beeFlash') {
+            beeFlash();
+        } else if (data.action === 'beeChase') {
+            beeChase();
+        }
+    } catch (error) {
+        console.error('Error handling message:', error, 'Message:', message);
+    }
+}
 
 socket.onerror = function(error) {
     console.error('WebSocket error:', error);
@@ -422,3 +434,4 @@ setInterval(showHoneyStorm, 45000);
 </script>
 </body>
 </html>
+
