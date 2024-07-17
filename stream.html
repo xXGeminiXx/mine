@@ -149,30 +149,18 @@ body {
 <body>
 <div class="overlay"></div>
 
-<img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee">
-<img id="beeCelebrate" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeecelebrate.png" alt="Celebrating Bee" width="400" height="400">
-<img id="beeNoFace" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenoface.png" alt="No Face Bee" width="400" height="400">
-<img id="beeAngry" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofaceangry.png" alt="Angry Bee" width="400" height="400">
-<img id="beeLove" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacelove.png" alt="Love Bee" width="400" height="400">
-<img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="400" height="400">
-<img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="400" height="400">
-
-<div id="message1" class="message">Bee kind to others!</div>
-<div id="message2" class="message">Spread posi-bee-tivity!</div>
-<div id="message3" class="message">Help someone today!</div>
-<div id="message4" class="message">You are buzz-worthy!</div>
-<div id="message5" class="message">Stay bee-sitive!</div>
-<div id="message6" class="message">Bee-lieve in yourself!</div>
-<div id="message7" class="message">Keep bee-ing awesome!</div>
-<div id="message8" class="message">Bee the change!</div>
-<div id="message9" class="message">You can do it!</div>
-<div id="message10" class="message">Spread love and joy!</div>
+<!-- Your existing HTML elements... -->
 
 <script>
 var socket = new WebSocket('ws://localhost:8282');
 
+socket.onopen = function() {
+    console.log('WebSocket connection established');
+};
+
 socket.onmessage = function(event) {
     var data = JSON.parse(event.data);
+    console.log('Received command:', data.action);
     if (data.action === 'showBee') {
         showBee();
     } else if (data.action === 'showSwarm') {
@@ -183,60 +171,117 @@ socket.onmessage = function(event) {
         showHoneyStorm();
     } else if (data.action === 'rave') {
         startRave();
+    } else if (data.action === 'beeParty') {
+        beeParty();
+    } else if (data.action === 'beeFlash') {
+        beeFlash();
+    } else if (data.action === 'beeChase') {
+        beeChase();
     }
 };
 
+var beeImages = [
+    "BeeBrainBee2.png",
+    "BeeBrainBeecelebrate.png",
+    "BeeBrainBeenoface.png",
+    "BeeBrainBeenofaceangry.png",
+    "BeeBrainBeenofacelove.png",
+    "BeeBrainBeenofacesad.png",
+    "BeeBrainBeenofacesurprise.png"
+];
+var bees = [];
+
 function showBee() {
+    var bee = createBee();
+    document.body.appendChild(bee);
+    bees.push(bee);
+    moveBee(bee);
+}
+
+function createBee() {
     var randomIndex = Math.floor(Math.random() * beeImages.length);
     var bee = document.createElement("img");
     bee.src = beeImages[randomIndex];
     bee.className = "bee-image";
-    bee.style.display = "block";
-    var beeTop = Math.random() * 80;  // Keep within 80% of viewport height
-    var beeLeft = Math.random() * 80; // Keep within 80% of viewport width
-	    
-    bee.style.top = beeTop + "%";
-    bee.style.left = beeLeft + "%";
-	
-    document.body.appendChild(bee);
-    var randomAction = Math.random();
-    if (randomAction < 0.25) {
-        bee.style.animation = "fly 5s infinite";
-    } else if (randomAction < 0.5) {
-        bee.style.animation = "bounce 2s infinite";
-    } else if (randomAction < 0.75) {
-        bee.style.animation = "beeDance 4s infinite";
-    } else {
-        bee.style.animation = "beeBuzz 4s infinite";
+    bee.style.position = "absolute";
+    bee.style.top = Math.random() * 80 + "%";
+    bee.style.left = Math.random() * 80 + "%";
+    bee.style.width = "100px";
+    bee.style.zIndex = 1000;
+    return bee;
+}
+
+function moveBee(bee) {
+    var speed = 2; // pixels per frame
+    var angle = Math.random() * 2 * Math.PI;
+    function updatePosition() {
+        var rect = bee.getBoundingClientRect();
+        var newX = rect.left + speed * Math.cos(angle);
+        var newY = rect.top + speed * Math.sin(angle);
+
+        // Ensure bees avoid bottom-right corner
+        var faceCamArea = { left: window.innerWidth - 330, top: window.innerHeight - 330, width: 330, height: 330 };
+        if (newX < faceCamArea.left + faceCamArea.width && newX + rect.width > faceCamArea.left &&
+            newY < faceCamArea.top + faceCamArea.height && newY + rect.height > faceCamArea.top) {
+            angle = (angle + Math.PI) % (2 * Math.PI);
+            newX = rect.left + speed * Math.cos(angle);
+            newY = rect.top + speed * Math.sin(angle);
+        }
+
+        bee.style.left = newX + "px";
+        bee.style.top = newY + "px";
+
+        bees.forEach(otherBee => {
+            if (otherBee !== bee && isColliding(bee, otherBee)) {
+                interactBees(bee, otherBee);
+                angle = (angle + Math.PI) % (2 * Math.PI); // Change direction
+            }
+        });
+
+        if (newX < 0 || newX > window.innerWidth - rect.width) {
+            angle = Math.PI - angle; // Bounce off the vertical wall
+        }
+        if (newY < 0 || newY > window.innerHeight - rect.height) {
+            angle = -angle; // Bounce off the horizontal wall
+        }
+
+        requestAnimationFrame(updatePosition);
     }
-    if (Math.random() < 0.3) {
-        showRandomMessage();
-    }
-    setTimeout(function() {
-        document.body.removeChild(bee);
-    }, 15000);
+    updatePosition();
+}
+
+function isColliding(bee1, bee2) {
+    var rect1 = bee1.getBoundingClientRect();
+    var rect2 = bee2.getBoundingClientRect();
+    return !(rect1.right < rect2.left || 
+             rect1.left > rect2.right || 
+             rect1.bottom < rect2.top || 
+             rect1.top > rect2.bottom);
+}
+
+function interactBees(bee1, bee2) {
+    // Perform interaction logic here, e.g., change color or animation
+    bee1.style.animation = "bounce 1s";
+    bee2.style.animation = "bounce 1s";
+    setTimeout(() => {
+        bee1.style.animation = "";
+        bee2.style.animation = "";
+    }, 1000);
 }
 
 function showSwarm() {
-    swarm.style.top = Math.random() * 80 + "%";
-    swarm.style.left = Math.random() * 80 + "%";
-    swarm.style.display = "flex";
-    swarm.style.width = "150px";
-    swarm.style.animation = "beeBuzz 3s infinite";
-    swarmMessage.style.top = (parseFloat(swarm.style.top) + 10) + "%";
-    swarmMessage.style.left = (parseFloat(swarm.style.left) + 10) + "%";
-    swarmMessage.style.display = "block";
-    setTimeout(function() {
-        swarm.style.display = "none";
-        swarm.style.animation = "";
-        swarmMessage.style.display = "none";
-    }, 10000);
+    for (let i = 0; i < 10; i++) {
+        showBee();
+    }
 }
 
 function showPollenBurst() {
-    pollenDescriptor.style.display = "block";
+    var pollenDescriptor = document.createElement('div');
+    pollenDescriptor.className = 'descriptor';
+    pollenDescriptor.innerText = 'POLLEN BURSTS!';
+    document.body.appendChild(pollenDescriptor);
     setTimeout(function() {
-        pollenDescriptor.style.display = "none";
+        pollenDescriptor.remove();
     }, 1000);
     
     var pollenBurst = document.createElement("div");
@@ -245,41 +290,37 @@ function showPollenBurst() {
     pollenBurst.style.left = Math.random() * 80 + "%";
     document.body.appendChild(pollenBurst);
     setTimeout(function() {
-        document.body.removeChild(pollenBurst);
+        pollenBurst.remove();
     }, 1000);
 }
 
 function showHoneyStorm() {
-    honeyDescriptor.style.display = "block";
+    var honeyDescriptor = document.createElement('div');
+    honeyDescriptor.className = 'descriptor';
+    honeyDescriptor.innerText = 'HONEY STORM!';
+    document.body.appendChild(honeyDescriptor);
     setTimeout(function() {
-        honeyDescriptor.style.display = "none";
+        honeyDescriptor.remove();
     }, 1000);
     
-    var honeyDrops = [];
     for (var i = 0; i < 20; i++) {
         var honeyDrop = document.createElement("div");
         honeyDrop.className = "honey-drop";
         honeyDrop.style.left = Math.random() * 100 + "%";
-        honeyDrops.push(honeyDrop);						   
         document.body.appendChild(honeyDrop);
+        setTimeout(function() {
+            honeyDrop.remove();
+        }, 10000);
     }
-
-    setTimeout(function() {
-        honeyDrops.forEach(function(drop) {
-            document.body.removeChild(drop);
-        });
-    }, 10000);
 }
 
 function startRave() {
-    // Laser effects
     for (let i = 0; i < 20; i++) {
         let laser = document.createElement('div');
         laser.className = 'laser';
         laser.style.left = (i * 5) + '%';
         document.body.appendChild(laser);
     }
-    // Dancing bees
     for (let i = 0; i < 10; i++) {
         let dancingBee = document.createElement('img');
         dancingBee.src = 'BeeBrainBee2.png';
@@ -297,29 +338,92 @@ function startRave() {
     }, 10000); // Stop rave after 10 seconds
 }
 
-var beeImages = [
-    "BeeBrainBee2.png",
-    "BeeBrainBeecelebrate.png",
-    "BeeBrainBeenoface.png",
-    "BeeBrainBeenofaceangry.png",
-    "BeeBrainBeenofacelove.png",
-    "BeeBrainBeenofacesad.png",
-    "BeeBrainBeenofacesurprise.png"
-];
-var swarm = document.getElementById("swarm");
-var swarmMessage = document.getElementById("swarmMessage");
-var pollenDescriptor = document.getElementById("pollenDescriptor");
-var honeyDescriptor = document.getElementById("honeyDescriptor");
-
-function showRandomMessage() {
-    var randomIndex = Math.floor(Math.random() * messages.length);
-    var message = messages[randomIndex];
-    message.style.top = Math.random() * 80 + "%";
-    message.style.left = Math.random() * 80 + "%";
-    message.style.display = "block";
+function beeParty() {
+    var partyDescriptor = document.createElement('div');
+    partyDescriptor.className = 'descriptor';
+    partyDescriptor.innerText = 'BEE PARTY!';
+    document.body.appendChild(partyDescriptor);
     setTimeout(function() {
-        message.style.display = "none";
-    }, 7000);
+        partyDescriptor.remove();
+    }, 5000);
+    
+    for (let i = 0; i < 10; i++) {
+        let partyBee = document.createElement('img');
+        partyBee.src = 'BeeBrainBeecelebrate.png';
+        partyBee.className = 'bee-image';
+        partyBee.style.top = (Math.random() * 80) + '%';
+        partyBee.style.left = (Math.random() * 80) + '%';
+        partyBee.style.animation = 'beeDance 2s infinite';
+        document.body.appendChild(partyBee);
+    }
+}
+
+function beeFlash() {
+    var flashDescriptor = document.createElement('div');
+    flashDescriptor.className = 'descriptor';
+    flashDescriptor.innerText = 'BEE FLASH!';
+    document.body.appendChild(flashDescriptor);
+    setTimeout(function() {
+        flashDescriptor.remove();
+    }, 5000);
+    
+    for (let i = 0; i < 10; i++) {
+        let flashBee = document.createElement('img');
+        flashBee.src = 'BeeBrainBeenoface.png';
+        flashBee.className = 'bee-image';
+        flashBee.style.top = (Math.random() * 80) + '%';
+        flashBee.style.left = (Math.random() * 80) + '%';
+        flashBee.style.animation = 'fly 2s infinite';
+        document.body.appendChild(flashBee);
+    }
+}
+
+function beeChase() {
+    var chaseDescriptor = document.createElement('div');
+    chaseDescriptor.className = 'descriptor';
+    chaseDescriptor.innerText = 'BEE CHASE!';
+    document.body.appendChild(chaseDescriptor);
+    setTimeout(function() {
+        chaseDescriptor.remove();
+    }, 5000);
+    
+    var chaserBee = createBee();
+    document.body.appendChild(chaserBee);
+    bees.push(chaserBee);
+    moveChaserBee(chaserBee);
+}
+
+function moveChaserBee(chaserBee) {
+    var speed = 3; // pixels per frame
+    function updatePosition() {
+        if (bees.length > 1) {
+            var targetBee = bees[Math.floor(Math.random() * (bees.length - 1))];
+            var rect = chaserBee.getBoundingClientRect();
+            var targetRect = targetBee.getBoundingClientRect();
+            var angle = Math.atan2(targetRect.top - rect.top, targetRect.left - rect.left);
+            
+            var newX = rect.left + speed * Math.cos(angle);
+            var newY = rect.top + speed * Math.sin(angle);
+            
+            chaserBee.style.left = newX + "px";
+            chaserBee.style.top = newY + "px";
+            
+            if (isColliding(chaserBee, targetBee)) {
+                interactBees(chaserBee, targetBee);
+                angle = (angle + Math.PI) % (2 * Math.PI);
+            }
+            
+            if (newX < 0 || newX > window.innerWidth - rect.width) {
+                angle = Math.PI - angle;
+            }
+            if (newY < 0 || newY > window.innerHeight - rect.height) {
+                angle = -angle;
+            }
+        }
+        
+        requestAnimationFrame(updatePosition);
+    }
+    updatePosition();
 }
 
 setInterval(showBee, 15000);
