@@ -2,6 +2,7 @@
 <html>
 <head>
 <style>
+/* Your existing styles... */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -73,6 +74,11 @@ body {
     25% { transform: translateX(-5px); }
     75% { transform: translateX(5px); }
 }
+@keyframes lasers {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
 .message {
     position: absolute;
     font-size: 36px;
@@ -130,20 +136,26 @@ body {
     color: black;
     text-shadow: 2px 2px 4px #FFD700;
 }
+
+.laser {
+    position: absolute;
+    width: 2px;
+    height: 100vh;
+    background-color: lime;
+    animation: lasers 0.5s infinite;
+}
 </style>
 </head>
 <body>
-
-	
 <div class="overlay"></div>
 
 <img id="beeBase" class="bee-image" src="BeeBrainBee2.png" alt="Flying Bee">
-<img id="beeCelebrate" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeecelebrate.png" alt="Celebrating Bee" width="400" height="400" >
-<img id="beeNoFace" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenoface.png" alt="No Face Bee" width="400" height="400"  >
-<img id="beeAngry" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofaceangry.png" alt="Angry Bee" width="400" height="400"  >
-<img id="beeLove" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacelove.png" alt="Love Bee" width="400" height="400"  >
-<img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="400" height="400"  >
-<img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="400" height="400"  >
+<img id="beeCelebrate" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeecelebrate.png" alt="Celebrating Bee" width="400" height="400">
+<img id="beeNoFace" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenoface.png" alt="No Face Bee" width="400" height="400">
+<img id="beeAngry" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofaceangry.png" alt="Angry Bee" width="400" height="400">
+<img id="beeLove" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacelove.png" alt="Love Bee" width="400" height="400">
+<img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="400" height="400">
+<img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="400" height="400">
 
 <div id="message1" class="message">Bee kind to others!</div>
 <div id="message2" class="message">Spread posi-bee-tivity!</div>
@@ -155,88 +167,24 @@ body {
 <div id="message8" class="message">Bee the change!</div>
 <div id="message9" class="message">You can do it!</div>
 <div id="message10" class="message">Spread love and joy!</div>
-<div id="message11" class="message">Share your smile with the world!</div>
-<div id="message12" class="message">Lift others up!</div>
-<div id="message13" class="message">Bee a source of light!</div>
-<div id="message14" class="message">Show compassion!</div>
-<div id="message15" class="message">Kindness is contagious!</div>
-<div id="message16" class="message">Love more, worry less!</div>
-<div id="message17" class="message">Cherish every moment!</div>
-<div id="message18" class="message">Bee a friend to all!</div>
-<div id="message19" class="message">Choose kindness!</div>
-<div id="message20" class="message">Your kindness matters!</div>
-<div id="message21" class="message">Give within your means!</div>
-<div id="message22" class="message">Inspire kindness!</div>
-<div id="message23" class="message">Love others unconditionally!</div>
-<div id="message24" class="message">Brighten someone's day!</div>
-<div id="message25" class="message">Kind hearts are the strongest!</div>
-<div id="message26" class="message">Share your love!</div>
-<div id="message27" class="message">Spread kindness everywhere!</div>
-<div id="message28" class="message">Make a difference!</div>
-<div id="message29" class="message">Bee the reason someone smiles today!</div>
-<div id="message30" class="message">Love is the answer!</div>
-<div id="message31" class="message">You may not be able to easily change the world, but you CAN change SOMEONE's world easily every day!</div>
-<div id="message32" class="message">Bee thoughtful!</div>
-<div id="message33" class="message">A little kindness goes a long way!</div>
-<div id="message34" class="message">Bee someone’s sunshine!</div>
-<div id="message35" class="message">Help others when you can!</div>
-<div id="message36" class="message">Bee the light in the darkness!</div>
-<div id="message37" class="message">Spread joy wherever you go!</div>
-<div id="message38" class="message">Give what you can, when you can!</div>
-<div id="message39" class="message">Bee generous with your kindness!</div>
-<div id="message40" class="message">Bee the reason someone believes in the goodness of people!</div>
-<div id="message41" class="message">Bee there for someone in need!</div>
-<div id="message42" class="message">Bee patient and understanding!</div>
-<div id="message43" class="message">Small acts of kindness can make a big difference!</div>
-<div id="message44" class="message">Bee a ray of hope!</div>
-<div id="message45" class="message">Help others bloom!</div>
-<div id="message46" class="message">Bee a helper, not a hinderer!</div>
-<div id="message47" class="message">Your kindness can light up the world!</div>
-<div id="message48" class="message">Bee an example of goodness!</div>
-<div id="message49" class="message">Kindness costs nothing but means everything!</div>
-<div id="message50" class="message">Bee the change you wish to see in the world!</div>
-<!-- ... additional messages ... -->
 
-<div class="swarm" id="swarm">
-    <img class="bee-image" src="BeeBrainBee2.png" alt="Bee">
-    <img class="bee-image" src="BeeBrainBeecelebrate.png" alt="Bee">
-    <img class="bee-image" src="BeeBrainBeenoface.png" alt="Bee">
-    <img class="bee-image" src="BeeBrainBeenofaceangry.png" alt="Bee">
-    <img class="bee-image" src="BeeBrainBeenofacelove.png" alt="Bee">
-    <img class="bee-image" src="BeeBrainBeenofacesad.png" alt="Bee">
-    <img class="bee-image" src="BeeBrainBeenofacesurprise.png" alt="Bee">
-</div>
-
-<div id="swarmMessage" class="message" style="display:none;">Swarm Alert! Bees incoming!</div>
-
-<div id="pollenDescriptor" class="descriptor">POLLEN BURSTS!</div>
-<div id="honeyDescriptor" class="descriptor">HONEY STORM!</div>
 <script>
-var messages = document.getElementsByClassName("message");
-var beeImages = [
-    "BeeBrainBee2.png",
-    "BeeBrainBeecelebrate.png",
-    "BeeBrainBeenoface.png",
-    "BeeBrainBeenofaceangry.png",
-    "BeeBrainBeenofacelove.png",
-    "BeeBrainBeenofacesad.png",
-    "BeeBrainBeenofacesurprise.png"
-];
-var swarm = document.getElementById("swarm");
-var swarmMessage = document.getElementById("swarmMessage");
-var pollenDescriptor = document.getElementById("pollenDescriptor");
-var honeyDescriptor = document.getElementById("honeyDescriptor");
+var socket = new WebSocket('ws://localhost:8080');
 
-function showRandomMessage() {
-    var randomIndex = Math.floor(Math.random() * messages.length);
-    var message = messages[randomIndex];
-    message.style.top = Math.random() * 80 + "%";
-    message.style.left = Math.random() * 80 + "%";
-    message.style.display = "block";
-    setTimeout(function() {
-        message.style.display = "none";
-    }, 7000);
-}
+socket.onmessage = function(event) {
+    var data = JSON.parse(event.data);
+    if (data.action === 'showBee') {
+        showBee();
+    } else if (data.action === 'showSwarm') {
+        showSwarm();
+    } else if (data.action === 'showPollenBurst') {
+        showPollenBurst();
+    } else if (data.action === 'showHoneyStorm') {
+        showHoneyStorm();
+    } else if (data.action === 'rave') {
+        startRave();
+    }
+};
 
 function showBee() {
     var randomIndex = Math.floor(Math.random() * beeImages.length);
@@ -323,64 +271,61 @@ function showHoneyStorm() {
     }, 10000);
 }
 
-
-//New web controller functionality
-<script>
-    var socket = new WebSocket('ws://localhost:8080');
-
-    socket.onmessage = function(event) {
-        var data = JSON.parse(event.data);
-        if (data.action === 'showBee') {
-            showBee();
-        } else if (data.action === 'showSwarm') {
-            showSwarm();
-        } else if (data.action === 'showPollenBurst') {
-            showPollenBurst();
-        } else if (data.action === 'showHoneyStorm') {
-            showHoneyStorm();
-        } else if (data.action === 'rave') {
-            startRave();
-        }
-    };
-
-    function startRave() {
-        // Laser effects
-        for (let i = 0; i < 20; i++) {
-            let laser = document.createElement('div');
-            laser.className = 'laser';
-            laser.style.left = (i * 5) + '%';
-            document.body.appendChild(laser);
-        }
-        // Dancing bees
-        for (let i = 0; i < 10; i++) {
-            let dancingBee = document.createElement('img');
-            dancingBee.src = 'BeeBrainBee2.png';
-            dancingBee.className = 'bee-image';
-            dancingBee.style.top = (Math.random() * 80) + '%';
-            dancingBee.style.left = (Math.random() * 80) + '%';
-            dancingBee.style.animation = 'beeDance 2s infinite';
-            document.body.appendChild(dancingBee);
-        }
-        setTimeout(() => {
-            let lasers = document.querySelectorAll('.laser');
-            lasers.forEach(laser => laser.remove());
-            let bees = document.querySelectorAll('.bee-image');
-            bees.forEach(bee => bee.remove());
-        }, 10000); // Stop rave after 10 seconds
+function startRave() {
+    // Laser effects
+    for (let i = 0; i < 20; i++) {
+        let laser = document.createElement('div');
+        laser.className = 'laser';
+        laser.style.left = (i * 5) + '%';
+        document.body.appendChild(laser);
     }
+    // Dancing bees
+    for (let i = 0; i < 10; i++) {
+        let dancingBee = document.createElement('img');
+        dancingBee.src = 'BeeBrainBee2.png';
+        dancingBee.className = 'bee-image';
+        dancingBee.style.top = (Math.random() * 80) + '%';
+        dancingBee.style.left = (Math.random() * 80) + '%';
+        dancingBee.style.animation = 'beeDance 2s infinite';
+        document.body.appendChild(dancingBee);
+    }
+    setTimeout(() => {
+        let lasers = document.querySelectorAll('.laser');
+        lasers.forEach(laser => laser.remove());
+        let bees = document.querySelectorAll('.bee-image');
+        bees.forEach(bee => bee.remove());
+    }, 10000); // Stop rave after 10 seconds
+}
 
-    function showBee() { /* Your existing showBee function... */ }
-    function showSwarm() { /* Your existing showSwarm function... */ }
-    function showPollenBurst() { /* Your existing showPollenBurst function... */ }
-    function showHoneyStorm() { /* Your existing showHoneyStorm function... */ }
-</script>
+var beeImages = [
+    "BeeBrainBee2.png",
+    "BeeBrainBeecelebrate.png",
+    "BeeBrainBeenoface.png",
+    "BeeBrainBeenofaceangry.png",
+    "BeeBrainBeenofacelove.png",
+    "BeeBrainBeenofacesad.png",
+    "BeeBrainBeenofacesurprise.png"
+];
+var swarm = document.getElementById("swarm");
+var swarmMessage = document.getElementById("swarmMessage");
+var pollenDescriptor = document.getElementById("pollenDescriptor");
+var honeyDescriptor = document.getElementById("honeyDescriptor");
+
+function showRandomMessage() {
+    var randomIndex = Math.floor(Math.random() * messages.length);
+    var message = messages[randomIndex];
+    message.style.top = Math.random() * 80 + "%";
+    message.style.left = Math.random() * 80 + "%";
+    message.style.display = "block";
+    setTimeout(function() {
+        message.style.display = "none";
+    }, 7000);
+}
 
 setInterval(showBee, 15000);
 setInterval(showSwarm, 60000);					 
 setInterval(showPollenBurst, 30000);
 setInterval(showHoneyStorm, 45000);
 </script>
-
-
 </body>
 </html>
