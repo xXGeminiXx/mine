@@ -320,12 +320,52 @@ function showHoneyStorm() {
 
 function startRave() {
     console.log('Executing startRave');
-    for (let i = 0; i < 20; i++) {
-        let laser = document.createElement('div');
-        laser.className = 'laser';
-        laser.style.left = (i * 5) + '%';
-        document.body.appendChild(laser);
+    createLasers();
+    createDancingBees();
+    setTimeout(() => {
+        let lasers = document.querySelectorAll('.laser');
+        lasers.forEach(laser => laser.remove());
+        let bees = document.querySelectorAll('.bee-image');
+        bees.forEach(bee => bee.remove());
+    }, 10000); // Stop rave after 10 seconds
+}
+function createLasers() {
+    const laserCount = 10;
+    for (let i = 0; i < laserCount; i++) {
+        let laserLeft = document.createElement('div');
+        laserLeft.className = 'laser';
+        document.body.appendChild(laserLeft);
+        animateLaser(laserLeft, i, true);
+
+        let laserRight = document.createElement('div');
+        laserRight.className = 'laser';
+        document.body.appendChild(laserRight);
+        animateLaser(laserRight, i, false);
     }
+}
+
+function animateLaser(laser, index, isLeft) {
+    let startX = isLeft ? 0 : window.innerWidth;
+    let endX = isLeft ? window.innerWidth : 0;
+    let startY = window.innerHeight;
+    let endY = 0;
+    let duration = 2 + Math.random() * 3; // random duration between 2 and 5 seconds
+
+    laser.style.left = startX + 'px';
+    laser.style.top = startY + 'px';
+
+    laser.animate([
+        { transform: `translate(${startX}px, ${startY}px)` },
+        { transform: `translate(${endX}px, ${endY}px)` }
+    ], {
+        duration: duration * 1000,
+        iterations: Infinity,
+        direction: 'alternate',
+        easing: 'ease-in-out'
+    });
+}
+
+function createDancingBees() {
     for (let i = 0; i < 10; i++) {
         let dancingBee = document.createElement('img');
         dancingBee.src = 'BeeBrainBee2.png';
@@ -336,14 +376,44 @@ function startRave() {
         dancingBee.style.display = "block";  // Ensure the bee is visible
         document.body.appendChild(dancingBee);
     }
-    setTimeout(() => {
-        let lasers = document.querySelectorAll('.laser');
-        lasers.forEach(laser => laser.remove());
-        let bees = document.querySelectorAll('.bee-image');
-        bees.forEach(bee => bee.remove());
-    }, 10000); // Stop rave after 10 seconds
 }
 
+function applyVolumetricLightEffect() {
+    var shaderScript = document.createElement('script');
+    shaderScript.type = 'x-shader/x-fragment';
+    shaderScript.id = 'shader-volumetric-light-fragment';
+    shaderScript.textContent = `
+        varying vec2 vUv;
+        uniform sampler2D tDiffuse;
+        uniform vec2 lightPosition;
+        uniform float exposure;
+        uniform float decay;
+        uniform float density;
+        uniform float weight;
+        uniform int samples;
+        const int MAX_SAMPLES = 100;
+        void main() {
+            vec2 texCoord = vUv;
+            vec2 deltaTextCoord = texCoord - lightPosition;
+            deltaTextCoord *= 1.0 / float(samples) * density;
+            vec4 color = texture2D(tDiffuse, texCoord);
+            float illuminationDecay = 1.0;
+            for(int i=0; i < MAX_SAMPLES; i++) {
+                if(i == samples) {
+                    break;
+                }
+                texCoord -= deltaTextCoord;
+                vec4 sample = texture2D(tDiffuse, texCoord);
+                sample *= illuminationDecay * weight;
+                color += sample;
+                illuminationDecay *= decay;
+            }
+            gl_FragColor = color * exposure;
+        }
+    `;
+    document.head.appendChild(shaderScript);
+}
+    
 function beeParty() {
     console.log('Executing beeParty');
     var partyDescriptor = document.createElement('div');
@@ -353,7 +423,7 @@ function beeParty() {
     setTimeout(function() {
         partyDescriptor.remove();
     }, 5000);
-    
+
     for (let i = 0; i < 10; i++) {
         let partyBee = document.createElement('img');
         partyBee.src = 'BeeBrainBeecelebrate.png';
@@ -364,6 +434,8 @@ function beeParty() {
         partyBee.style.display = "block";  // Ensure the bee is visible
         document.body.appendChild(partyBee);
     }
+    applyVolumetricLightEffect();
+    setTimeout(removeVolumetricLightEffect, 5000); // Remove effect after 5 seconds
 }
 
 function beeFlash() {
@@ -375,7 +447,7 @@ function beeFlash() {
     setTimeout(function() {
         flashDescriptor.remove();
     }, 5000);
-    
+
     for (let i = 0; i < 10; i++) {
         let flashBee = document.createElement('img');
         flashBee.src = 'BeeBrainBeenoface.png';
@@ -386,7 +458,17 @@ function beeFlash() {
         flashBee.style.display = "block";  // Ensure the bee is visible
         document.body.appendChild(flashBee);
     }
+    applyVolumetricLightEffect();
+    setTimeout(removeVolumetricLightEffect, 5000); // Remove effect after 5 seconds
 }
+    
+function removeVolumetricLightEffect() {
+    var shaderScript = document.getElementById('shader-volumetric-light-fragment');
+    if (shaderScript) {
+        shaderScript.remove();
+    }
+}
+
 
 function beeChase() {
     console.log('Executing beeChase');
