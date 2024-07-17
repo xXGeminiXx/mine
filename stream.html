@@ -95,10 +95,16 @@ body {
 
 .laser {
     position: absolute;
-    width: 2px;
-    height: 100vh;
+    width: 5px;
+    height: 100%;
     background-color: lime;
-    animation: lasers 0.5s infinite;
+    box-shadow: 0 0 20px lime, 0 0 30px lime;
+    animation: lasers 0.5s infinite alternate;
+}
+
+@keyframes lasers {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(10px); }
 }
 </style>
 </head>
@@ -202,6 +208,7 @@ function createBee() {
     bee.style.left = Math.random() * 80 + "%";
     bee.style.width = "100px";
     bee.style.zIndex = 1000;
+    bee.style.display = "block";  // Ensure the bee is visible
     return bee;
 }
 
@@ -326,6 +333,7 @@ function startRave() {
         dancingBee.style.top = (Math.random() * 80) + '%';
         dancingBee.style.left = (Math.random() * 80) + '%';
         dancingBee.style.animation = 'beeDance 2s infinite';
+        dancingBee.style.display = "block";  // Ensure the bee is visible
         document.body.appendChild(dancingBee);
     }
     setTimeout(() => {
@@ -353,6 +361,7 @@ function beeParty() {
         partyBee.style.top = (Math.random() * 80) + '%';
         partyBee.style.left = (Math.random() * 80) + '%';
         partyBee.style.animation = 'beeDance 2s infinite';
+        partyBee.style.display = "block";  // Ensure the bee is visible
         document.body.appendChild(partyBee);
     }
 }
@@ -374,6 +383,7 @@ function beeFlash() {
         flashBee.style.top = (Math.random() * 80) + '%';
         flashBee.style.left = (Math.random() * 80) + '%';
         flashBee.style.animation = 'fly 2s infinite';
+        flashBee.style.display = "block";  // Ensure the bee is visible
         document.body.appendChild(flashBee);
     }
 }
@@ -434,4 +444,3 @@ setInterval(showHoneyStorm, 45000);
 </script>
 </body>
 </html>
-
