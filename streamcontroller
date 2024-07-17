@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #222;
+    color: white;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+    <button onclick="sendCommand('showBee')">Show Bee</button>
+    <button onclick="sendCommand('showSwarm')">Show Swarm</button>
+    <button onclick="sendCommand('showPollenBurst')">Show Pollen Burst</button>
+    <button onclick="sendCommand('showHoneyStorm')">Show Honey Storm</button>
+    <button onclick="sendCommand('rave')">Start Rave</button>
+
+<script>
+    var socket = new WebSocket('ws://localhost:8080');
+
+    function sendCommand(action) {
+        var data = JSON.stringify({ action: action });
+        socket.send(data);
+    }
+</script>
+</body>
+</html>
