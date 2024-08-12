@@ -27,9 +27,15 @@ body {
 
 .bee-image {
     position: absolute;
-    width: 200px;
+    width: 150px; /* Reduce size for less screen coverage */
     z-index: 1000;
     display: none;
+    transition: transform 0.3s ease, width 0.3s ease; /* Add smooth transition */
+}
+
+.bee-image:hover {
+    transform: scale(1.2); /* Slightly enlarge on hover */
+    width: 180px;
 }
 
 .message {
@@ -39,7 +45,16 @@ body {
     animation: fadeMessage 7s infinite;
     text-shadow: 3px 3px 6px #000000;
     display: none;
+    background: rgba(0, 0, 0, 0.5); /* Add background transparency */
+    padding: 10px 20px;
+    border-radius: 10px;
+    max-width: 90%; /* Restrict width for readability */
+    text-align: center; /* Center-align the message */
+    top: 20px; /* Position at the top of the screen */
+    left: 50%;
+    transform: translateX(-50%);
 }
+
 .swarm {
     position: absolute;
     width: 150px;
@@ -47,30 +62,39 @@ body {
     display: flex;
     flex-wrap: wrap;
     display: none;
+    z-index: 999; /* Ensure swarm isn't too prominent */
 }
 
 .swarm .bee-image {
-    width: 30px;
-    margin: 5px;
+    width: 25px; /* Slightly smaller to avoid too much screen coverage */
+    margin: 3px;
 }
 
 .pollen-burst {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 40px; /* Reduced size */
+    height: 40px;
     background: yellow;
     border-radius: 50%;
     animation: pollenBurst 1s infinite;
+    box-shadow: 0 0 10px yellow; /* Add a glow effect */
+    opacity: 0.9; /* Slight transparency to make it less intrusive */
 }
+
 
 .honey-drop {
     position: absolute;
     top: -50px;
     width: 20px;
     height: 30px;
-    background: orange;
+    background: rgba(255, 165, 0, 0.8); /* Slight transparency */
     border-radius: 0 0 50% 50%;
-    animation: fall 7s infinite;
+    animation: fall 7s infinite, drip 2s infinite; /* Add drip animation */
+}
+
+@keyframes drip {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.2); }
 }
 
 .descriptor {
@@ -81,28 +105,90 @@ body {
     display: none;
     z-index: 20;
     text-shadow: 4px 4px 8px #000000;
+    background: rgba(0, 0, 0, 0.7); /* Background for contrast */
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%; /* Ensure it doesn’t cover too much screen */
+    text-align: center;
 }
+
 
 .burst-label {
     position: absolute;
     font-size: 24px;
     color: black;
     text-shadow: 2px 2px 4px #FFD700;
+    background: rgba(255, 215, 0, 0.8); /* Add background for contrast */
+    padding: 5px 10px;
+    border-radius: 5px;
+    max-width: 70%;
+    text-align: center;
 }
+
 
 .laser {
     position: absolute;
-    width: 3px;
+    width: 2px; /* Slightly thinner to reduce screen coverage */
     height: 100vh;
     background-color: lime;
-    box-shadow: 0 0 10px lime, 0 0 20px lime;
-    animation: lasers 1s infinite alternate ease-in-out;
+    box-shadow: 0 0 8px lime, 0 0 16px lime; /* Subtle glow effect */
+    animation: lasers 1.5s infinite alternate ease-in-out; /* Slowed down for less intensity */
+    opacity: 0.8; /* Slight transparency to reduce visual overload */
+}
+
+
+/* Added keyframe animations */
+@keyframes fadeMessage {
+    0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
+    40% { opacity: 1; transform: translateY(0) scale(1); }
+    60% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(30px) scale(1.1); }
+}
+
+@keyframes pollenBurst {
+    0% { transform: scale(1); opacity: 1; filter: blur(0px); }
+    50% { transform: scale(1.2); opacity: 0.7; filter: blur(2px); }
+    100% { transform: scale(0.5); opacity: 0; filter: blur(4px); }
+}
+
+@keyframes fall {
+    0% { top: -50px; transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(15deg) scale(1.1); }
+    100% { top: 100vh; transform: rotate(360deg) scale(1.2); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 @keyframes lasers {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(20px); }
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateY(10px) scale(1.1); opacity: 0.8; }
+    100% { transform: translateY(20px) scale(1.2); opacity: 0.6; }
 }
+
+@keyframes beeDance {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25%, 75% { transform: translateY(-10px) rotate(-10deg); }
+    50% { transform: translateY(10px) rotate(10deg); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1); }
+    40% { transform: translateY(-30px) scale(1.2); }
+    60% { transform: translateY(-15px) scale(1.1); }
+}
+
+@keyframes fly {
+    0% { transform: translateX(0) translateY(0) scale(1); opacity: 1; }
+    25% { transform: translateX(25vw) translateY(-5vh) scale(1.1); opacity: 0.8; }
+    50% { transform: translateX(50vw) translateY(5vh) scale(1.2); opacity: 0.6; }
+    75% { transform: translateX(75vw) translateY(-5vh) scale(1.1); opacity: 0.8; }
+    100% { transform: translateX(100vw) translateY(0) scale(1); opacity: 1; }
+}
+
     
 </style>
 </head>
@@ -117,20 +203,110 @@ body {
 <img id="beeSad" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesad.png" alt="Sad Bee" width="500" height="500">
 <img id="beeSurprise" class="bee-image" src="https://raw.githubusercontent.com/xXGeminiXx/mine/main/BeeBrainBeenofacesurprise.png" alt="Surprise Bee" width="500" height="500">
 
-<div id="message1" class="message">Bee kind to others!</div>
-<div id="message2" class="message">Spread posi-bee-tivity!</div>
-<div id="message3" class="message">Help someone today!</div>
-<div id="message4" class="message">You are buzz-worthy!</div>
-<div id="message5" class="message">Stay bee-sitive!</div>
-<div id="message6" class="message">Bee-lieve in yourself!</div>
-<div id="message7" class="message">Keep bee-ing awesome!</div>
-<div id="message8" class="message">Bee the change!</div>
-<div id="message9" class="message">You can do it!</div>
-<div id="message10" class="message">Spread love and joy!</div>
-
+<div id="message1" class="message">Bee kind, it’s contagious!</div>
+<div id="message2" class="message">Buzz around with positivity!</div>
+<div id="message3" class="message">Helping others is the nectar of life!</div>
+<div id="message4" class="message">You are bee-autiful inside and out!</div>
+<div id="message5" class="message">Bee the reason someone smiles today!</div>
+<div id="message6" class="message">Small acts of kindness can create a hive of happiness!</div>
+<div id="message7" class="message">Bee-lieve in the power of giving!</div>
+<div id="message8" class="message">Spread your wings and share the love!</div>
+<div id="message9" class="message">A little honey goes a long way!</div>
+<div id="message10" class="message">Buzz into action and help a friend!</div>
+<div id="message11" class="message">Kindness is the honey that sweetens life!</div>
+<div id="message12" class="message">Bee a force for good!</div>
+<div id="message13" class="message">Share your light with others, just like bees share pollen!</div>
+<div id="message14" class="message">Bee proud of your small acts of kindness!</div>
+<div id="message15" class="message">Bee-lieve in the magic of helping others!</div>
+<div id="message16" class="message">Buzz with gratitude and joy!</div>
+<div id="message17" class="message">Bee a beacon of hope for someone today!</div>
+<div id="message18" class="message">Spread honey, not hate!</div>
+<div id="message19" class="message">Bee-lieve in yourself, you’re doing great!</div>
+<div id="message20" class="message">Kindness is the bee-st way to live!</div>
+<div id="message21" class="message">Share your honey, share your love!</div>
+<div id="message22" class="message">Bee the honey in someone's tea!</div>
+<div id="message23" class="message">Kindness makes the world buzz!</div>
+<div id="message24" class="message">Bee a friend to someone in need!</div>
+<div id="message25" class="message">Help others bloom with kindness!</div>
+<div id="message26" class="message">Bee-lieve in the power of a kind word!</div>
+<div id="message27" class="message">Buzz with excitement to help others!</div>
+<div id="message28" class="message">Bee generous with your time and love!</div>
+<div id="message29" class="message">Bee the reason someone believes in good people!</div>
+<div id="message30" class="message">Share a smile, it’s sweeter than honey!</div>
+<div id="message31" class="message">Bee yourself, you’re amazing!</div>
+<div id="message32" class="message">Help others find their wings!</div>
+<div id="message33" class="message">Bee the light in someone’s darkness!</div>
+<div id="message34" class="message">Buzz with kindness wherever you go!</div>
+<div id="message35" class="message">Bee-lieve in the good in people!</div>
+<div id="message36" class="message">A helping hand is worth more than gold!</div>
+<div id="message37" class="message">Bee a part of the solution!</div>
+<div id="message38" class="message">Share your honey with the world!</div>
+<div id="message39" class="message">Bee brave, bee kind!</div>
+<div id="message40" class="message">Kindness is the buzzword!</div>
+<div id="message41" class="message">Bee there for someone today!</div>
+<div id="message42" class="message">Every bee in the hive makes a difference!</div>
+<div id="message43" class="message">Bee a blessing to others!</div>
+<div id="message44" class="message">Help others, it’s the bee’s knees!</div>
+<div id="message45" class="message">Bee grateful for the little things!</div>
+<div id="message46" class="message">Kindness is a gift everyone can afford to give!</div>
+<div id="message47" class="message">Buzz with love, spread it wide!</div>
+<div id="message48" class="message">Bee the change you wish to see!</div>
+<div id="message49" class="message">Help someone grow today!</div>
+<div id="message50" class="message">Bee the reason someone believes in kindness!</div>
+<div id="message51" class="message">Buzz with positivity and watch the world bloom!</div>
+<div id="message52" class="message">Kindness is the nectar of the heart!</div>
+<div id="message53" class="message">Bee-lieve in the power of giving back!</div>
+<div id="message54" class="message">Help others, and you’ll find your own wings!</div>
+<div id="message55" class="message">Bee mindful of the needs of others!</div>
+<div id="message56" class="message">Buzz into someone’s life with kindness!</div>
+<div id="message57" class="message">Bee the spark that ignites kindness!</div>
+<div id="message58" class="message">Help others soar like a bee!</div>
+<div id="message59" class="message">Bee kind, even when it’s hard!</div>
+<div id="message60" class="message">Spread your honey far and wide!</div>
+<div id="message61" class="message">Bee a role model for kindness!</div>
+<div id="message62" class="message">Buzz with excitement to make a difference!</div>
+<div id="message63" class="message">Kindness makes the world go round!</div>
+<div id="message64" class="message">Bee the kindness you wish to receive!</div>
+<div id="message65" class="message">Buzz with joy and spread it around!</div>
+<div id="message66" class="message">Bee the light that brightens someone’s day!</div>
+<div id="message67" class="message">Help others find their hive!</div>
+<div id="message68" class="message">Bee-lieve in the power of a smile!</div>
+<div id="message69" class="message">Buzz with love and spread it to all!</div>
+<div id="message70" class="message">Bee kind, it’s the sweetest thing you can do!</div>
+<div id="message71" class="message">Help others, and you help yourself!</div>
+<div id="message72" class="message">Bee-lieve in the goodness of people!</div>
+<div id="message73" class="message">Buzz into action and make a difference!</div>
+<div id="message74" class="message">Bee kind, it’s always in season!</div>
+<div id="message75" class="message">Spread honey, spread love!</div>
+<div id="message76" class="message">Bee the reason someone smiles today!</div>
+<div id="message77" class="message">Buzz with positivity, it’s infectious!</div>
+<div id="message78" class="message">Kindness is the best nectar!</div>
+<div id="message79" class="message">Bee a source of joy for others!</div>
+<div id="message80" class="message">Share your honey, share your happiness!</div>
+<div id="message81" class="message">Bee-lieve in the magic of kindness!</div>
+<div id="message82" class="message">Buzz around with joy and gratitude!</div>
+<div id="message83" class="message">Bee the change, make a difference!</div>
+<div id="message84" class="message">Help others, and watch your world blossom!</div>
+<div id="message85" class="message">Bee a part of something bigger!</div>
+<div id="message86" class="message">Spread kindness like a bee spreads pollen!</div>
+<div id="message87" class="message">Bee kind, bee generous, bee you!</div>
+<div id="message88" class="message">Buzz with enthusiasm to help others!</div>
+<div id="message89" class="message">Bee the sweetness in someone’s life!</div>
+<div id="message90" class="message">Kindness is the honeycomb of life!</div>
+<div id="message91" class="message">Bee grateful for every little thing!</div>
+<div id="message92" class="message">Help others find their way, like bees finding flowers!</div>
+<div id="message93" class="message">Bee the kindness you wish to see in the world!</div>
+<div id="message94" class="message">Buzz with love, it’s the best feeling!</div>
+<div id="message95" class="message">Bee-lieve in the power of community!</div>
+<div id="message96" class="message">Help someone today, it’s the bee-st thing to do!</div>
+<div id="message97" class="message">Bee kind to yourself, too!</div>
+<div id="message98" class="message">Spread kindness like honey on toast!</div>
+<div id="message99" class="message">Buzz with the joy of helping others!</div>
+<div id="message100" class="message">Bee a hero in someone’s story!</div>
+    
 <script>
-var socket = new WebSocket('ws://localhost:8282');
 
+var socket = new WebSocket('ws://localhost:8282');
 socket.onopen = function() {
     console.log('WebSocket connection established');
 };
@@ -143,6 +319,14 @@ socket.onmessage = function(event) {
     }
 };
 
+socket.onerror = function(error) {
+    console.error('WebSocket error:', error);
+};
+
+socket.onclose = function() {
+    console.log('WebSocket connection closed');
+};
+    
 function handleMessage(message) {
     try {
         var data = JSON.parse(message);
@@ -186,14 +370,23 @@ var beeImages = [
     "BeeBrainBeenofacesad.png",
     "BeeBrainBeenofacesurprise.png"
 ];
+    
 var bees = [];
+var maxBees = 50; // Limit the number of bees on the screen
 
 function showBee() {
+    if (bees.length >= maxBees) return; // Check if we reached the max number of bees
     console.log('Executing showBee');
     var bee = createBee();
     document.body.appendChild(bee);
     bees.push(bee);
     moveBee(bee);
+
+    // Automatically remove the bee after a period (e.g., 30 seconds)
+    setTimeout(() => {
+        bee.remove();
+        bees = bees.filter(b => b !== bee); // Remove bee from the array
+    }, 30000);
 }
 
 function createBee() {
@@ -201,30 +394,36 @@ function createBee() {
     var bee = document.createElement("img");
     bee.src = beeImages[randomIndex];
     bee.className = "bee-image";
-    bee.style.position = "absolute";
     bee.style.top = Math.random() * 80 + "%";
     bee.style.left = Math.random() * 80 + "%";
     bee.style.width = "500px";
-    bee.style.zIndex = 1000;
-    bee.style.display = "block";  // Ensure the bee is visible
+    bee.style.display = "block"; // Ensure the bee is visible
     return bee;
 }
 
+function interactBees(bee1, bee2) {
+    console.log('Bees are interacting');
+    bee1.style.animation = "bounce 1s";
+    bee2.style.animation = "bounce 1s";
+    setTimeout(() => {
+        bee1.style.animation = "";
+        bee2.style.animation = "";
+    }, 1000);
+}
+
 function moveBee(bee) {
-    var speed = 2; // pixels per frame
+    var speed = 2;
     var angle = Math.random() * 2 * Math.PI;
     function updatePosition() {
         var rect = bee.getBoundingClientRect();
         var newX = rect.left + speed * Math.cos(angle);
         var newY = rect.top + speed * Math.sin(angle);
 
-        // Ensure bees avoid bottom-right corner
+        // Handle facecam avoidance and collision
         var faceCamArea = { left: window.innerWidth - 330, top: window.innerHeight - 330, width: 330, height: 330 };
         if (newX < faceCamArea.left + faceCamArea.width && newX + rect.width > faceCamArea.left &&
             newY < faceCamArea.top + faceCamArea.height && newY + rect.height > faceCamArea.top) {
             angle = (angle + Math.PI) % (2 * Math.PI);
-            newX = rect.left + speed * Math.cos(angle);
-            newY = rect.top + speed * Math.sin(angle);
         }
 
         bee.style.left = newX + "px";
@@ -232,19 +431,15 @@ function moveBee(bee) {
 
         bees.forEach(otherBee => {
             if (otherBee !== bee && isColliding(bee, otherBee)) {
-                angle = (angle + (Math.random() > 0.5 ? 0.5 : -0.5) * Math.PI) % (2 * Math.PI); // Change direction less sensitively
-                newX = rect.left + speed * Math.cos(angle);
-                newY = rect.top + speed * Math.sin(angle);
-                bee.style.left = newX + "px";
-                bee.style.top = newY + "px";
+                angle = (angle + (Math.random() > 0.5 ? 0.5 : -0.5) * Math.PI) % (2 * Math.PI);
             }
         });
 
         if (newX < 0 || newX > window.innerWidth - rect.width) {
-            angle = Math.PI - angle; // Bounce off the vertical wall
+            angle = Math.PI - angle;
         }
         if (newY < 0 || newY > window.innerHeight - rect.height) {
-            angle = -angle; // Bounce off the horizontal wall
+            angle = -angle;
         }
 
         requestAnimationFrame(updatePosition);
@@ -259,16 +454,6 @@ function isColliding(bee1, bee2) {
              rect1.left > rect2.right || 
              rect1.bottom < rect2.top || 
              rect1.top > rect2.bottom);
-}
-
-function interactBees(bee1, bee2) {
-    console.log('Bees are interacting');
-    bee1.style.animation = "bounce 1s";
-    bee2.style.animation = "bounce 1s";
-    setTimeout(() => {
-        bee1.style.animation = "";
-        bee2.style.animation = "";
-    }, 1000);
 }
 
 function showSwarm() {
@@ -520,10 +705,11 @@ function moveChaserBee(chaserBee) {
     updatePosition();
 }
 
-setInterval(showBee, 150000);
-setInterval(showSwarm, 600000);					 
-setInterval(showPollenBurst, 300000);
-setInterval(showHoneyStorm, 450000);
+// Reduced bee spawning intervals to mitigate stacking
+setInterval(showBee, 300000); // Adjusted timing for bee spawning
+setInterval(showSwarm, 1200000); // Adjusted timing for swarm
+setInterval(showPollenBurst, 900000);
+setInterval(showHoneyStorm, 1350000);
 </script>
 </body>
 </html>
