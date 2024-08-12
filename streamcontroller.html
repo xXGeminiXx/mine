@@ -9,8 +9,9 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #222;
+    background: linear-gradient(135deg, #333, #555); /* Subtle gradient background */
     color: white;
+    margin: 0;
 }
 
 button {
@@ -18,10 +19,50 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    border: none;
+    background-color: #444;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #555;
+    color: #FFD700; /* Matching the bee theme */
+}
+
+button:active {
+    background-color: #333; /* Darker shade to indicate press */
+    transform: scale(0.98); /* Slightly shrink to show click */
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #FFD700;
+    color: #222;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.error {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.success {
+    background-color: #28a745;
+    color: white;
 }
 </style>
 </head>
 <body>
+    <!-- Buttons to trigger different actions -->
     <button onclick="sendCommand('showBee')">Show Bee</button>
     <button onclick="sendCommand('showSwarm')">Show Swarm</button>
     <button onclick="sendCommand('showPollenBurst')">Show Pollen Burst</button>
@@ -31,21 +72,70 @@ button {
     <button onclick="sendCommand('beeFlash')">Bee Flash</button>
     <button onclick="sendCommand('beeChase')">Bee Chase</button>
 
+    <!-- Notification for command feedback -->
+    <div id="notification" class="notification"></div>
+
 <script>
     var socket = new WebSocket('ws://localhost:8282');
+    var reconnectInterval = 3000;
 
     socket.onopen = function() {
         console.log('WebSocket connection established');
+        showNotification('Connected to server', 'success');
     };
 
     socket.onmessage = function(event) {
         console.log('Received:', event.data);
+        // You could add specific handling here if needed
+    };
+
+    socket.onerror = function(error) {
+        console.error('WebSocket Error:', error);
+        showNotification('WebSocket error occurred', 'error');
+    };
+
+    socket.onclose = function() {
+        console.log('WebSocket connection closed, attempting to reconnect...');
+        showNotification('Connection lost, attempting to reconnect...', 'error');
+        setTimeout(function() {
+            socket = new WebSocket('ws://localhost:8282');
+        }, reconnectInterval);
     };
 
     function sendCommand(action) {
-        var data = JSON.stringify({ action: action });
-        socket.send(data);
+        if (socket.readyState === WebSocket.OPEN) {
+            var data = JSON.stringify({ action: action });
+            socket.send(data);
+            showNotification('Command "' + action + '" sent!', 'success');
+        } else {
+            showNotification('Failed to send command, not connected to server', 'error');
+        }
     }
+
+    function showNotification(message, type) {
+        var notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = 'notification ' + type;
+        notification.style.display = 'block';
+        setTimeout(function() {
+            notification.style.display = 'none';
+        }, 3000); // Hide after 3 seconds
+    }
+
+    // Dynamically create buttons (optional)
+    /*
+    const commands = ['showBee', 'showSwarm', 'showPollenBurst', 'showHoneyStorm', 'rave', 'beeParty', 'beeFlash', 'beeChase'];
+    const buttonContainer = document.createElement('div');
+
+    commands.forEach(command => {
+        const button = document.createElement('button');
+        button.textContent = command.replace(/([A-Z])/g, ' $1').trim(); // Convert camelCase to readable text
+        button.onclick = () => sendCommand(command);
+        buttonContainer.appendChild(button);
+    });
+
+    document.body.appendChild(buttonContainer);
+    */
 </script>
 </body>
 </html>
