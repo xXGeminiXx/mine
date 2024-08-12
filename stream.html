@@ -362,13 +362,13 @@ socket.onclose = function() {
 };
 
 var beeImages = [
-    "BeeBrainBee2.png",
-    "BeeBrainBeecelebrate.png",
-    "BeeBrainBeenoface.png",
-    "BeeBrainBeenofaceangry.png",
-    "BeeBrainBeenofacelove.png",
-    "BeeBrainBeenofacesad.png",
-    "BeeBrainBeenofacesurprise.png"
+    "BeeBrainBee2.png", // Base Bee
+    "BeeBrainBeecelebrate.png", // Celebrating Bee
+    "BeeBrainBeenoface.png", // No Face Bee
+    "BeeBrainBeenofaceangry.png", // Angry Bee
+    "BeeBrainBeenofacelove.png", // Love Bee
+    "BeeBrainBeenofacesad.png", // Sad Bee
+    "BeeBrainBeenofacesurprise.png" // Surprise Bee
 ];
     
 var bees = [];
@@ -393,6 +393,30 @@ function createBee() {
     var randomIndex = Math.floor(Math.random() * beeImages.length);
     var bee = document.createElement("img");
     bee.src = beeImages[randomIndex];
+    bee.className = "bee-image";
+    bee.style.top = Math.random() * 80 + "%";
+    bee.style.left = Math.random() * 80 + "%";
+    bee.style.width = "500px";
+    bee.style.display = "block"; // Ensure the bee is visible
+    return bee;
+}
+
+// Function to show a specific bee by index
+function showSpecificBee(index) {
+    if (bees.length >= maxBees) return; // Check if we reached the max number of bees
+    var bee = createSpecificBee(index);
+    document.body.appendChild(bee);
+    bees.push(bee);
+    moveBee(bee);
+    setTimeout(() => {
+        bee.remove();
+        bees = bees.filter(b => b !== bee);
+    }, 30000);
+}
+
+function createSpecificBee(index) {
+    var bee = document.createElement("img");
+    bee.src = beeImages[index];
     bee.className = "bee-image";
     bee.style.top = Math.random() * 80 + "%";
     bee.style.left = Math.random() * 80 + "%";
@@ -459,7 +483,7 @@ function isColliding(bee1, bee2) {
 function showSwarm() {
     console.log('Executing showSwarm');
     for (let i = 0; i < 10; i++) {
-        showBee();
+        showSpecificBee(4); // Love Bee for swarm effect
     }
 }
 
@@ -481,6 +505,7 @@ function showPollenBurst() {
     setTimeout(function() {
         pollenBurst.remove();
     }, 1000);
+    showSpecificBee(5); // Sad Bee for pollen burst effect
 }
 
 function showHoneyStorm() {
@@ -502,6 +527,7 @@ function showHoneyStorm() {
             honeyDrop.remove();
         }, 10000);
     }
+    showSpecificBee(6); // Surprise Bee for honey storm effect
 }
 
 function startRave() {
@@ -515,6 +541,7 @@ function startRave() {
         bees.forEach(bee => bee.remove());
     }, 10000); // Stop rave after 10 seconds
 }
+
 function createLasers() {
     const laserCount = 10;
     for (let i = 0; i < laserCount; i++) {
@@ -554,7 +581,7 @@ function animateLaser(laser, index, isLeft) {
 function createDancingBees() {
     for (let i = 0; i < 10; i++) {
         let dancingBee = document.createElement('img');
-        dancingBee.src = 'BeeBrainBee2.png';
+        dancingBee.src = 'BeeBrainBee2.png'; // Base Bee for rave
         dancingBee.className = 'bee-image';
         dancingBee.style.top = (Math.random() * 80) + '%';
         dancingBee.style.left = (Math.random() * 80) + '%';
@@ -612,7 +639,7 @@ function beeParty() {
 
     for (let i = 0; i < 10; i++) {
         let partyBee = document.createElement('img');
-        partyBee.src = 'BeeBrainBeecelebrate.png';
+        partyBee.src = 'BeeBrainBeecelebrate.png'; // Celebrating Bee for party
         partyBee.className = 'bee-image';
         partyBee.style.top = (Math.random() * 80) + '%';
         partyBee.style.left = (Math.random() * 80) + '%';
@@ -636,7 +663,7 @@ function beeFlash() {
 
     for (let i = 0; i < 10; i++) {
         let flashBee = document.createElement('img');
-        flashBee.src = 'BeeBrainBeenoface.png';
+        flashBee.src = 'BeeBrainBeenoface.png'; // No Face Bee for flash
         flashBee.className = 'bee-image';
         flashBee.style.top = (Math.random() * 80) + '%';
         flashBee.style.left = (Math.random() * 80) + '%';
@@ -654,7 +681,6 @@ function removeVolumetricLightEffect() {
         shaderScript.remove();
     }
 }
-
 
 function beeChase() {
     console.log('Executing beeChase');
@@ -705,11 +731,12 @@ function moveChaserBee(chaserBee) {
     updatePosition();
 }
 
-// Reduced bee spawning intervals to mitigate stacking
-setInterval(showBee, 300000); // Adjusted timing for bee spawning
-setInterval(showSwarm, 1200000); // Adjusted timing for swarm
-setInterval(showPollenBurst, 900000);
-setInterval(showHoneyStorm, 1350000);
+// Updated intervals for more frequent effects
+setInterval(showBee, 60000); // Bee spawning every 1 minute
+setInterval(showSwarm, 300000); // Swarm every 5 minutes
+setInterval(showPollenBurst, 180000); // Pollen Burst every 3 minutes
+setInterval(showHoneyStorm, 240000); // Honey Storm every 4 minutes
+
 </script>
 </body>
 </html>
